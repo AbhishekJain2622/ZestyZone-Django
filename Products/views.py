@@ -9,6 +9,9 @@ def Home(request):
 def About(request):
     return render(request,'about.html')
 
+def menu(request):
+    return render(request,'menu.html')
+
 
 def Contact(request):
     if request.method == "POST":

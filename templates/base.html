@@ -2,6 +2,7 @@
 {% load static %}
 <html>
 <head>
+
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,7 +13,38 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="">
+  <style>
+    .dropdown {
+    position: relative;
+  }
 
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Adds a subtle blur effect */
+  }
+
+  .dropdown-menu .dropdown-item {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: background 0.3s ease;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Transparent hover effect */
+  }
+</style>
+
+  
   <title> {% block title %}Home{% endblock %}</title>
 
   <!-- bootstrap core css -->
@@ -58,7 +90,7 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="menu.html">Menu</a>
+                    <a class="nav-link" href="/menu">Menu</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
@@ -68,11 +100,20 @@
                   </li>
                 </ul>
                 <div class="user_option">
+                  <div class="dropdown">
+                    <a href="javascript:void(0)" class="user_link" id="userDropdown" onclick="toggleDropdown()">
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                    <div id="dropdownMenu" class="dropdown-menu" style="background: none; border: none;">
+                      <a href="/auth/signup" class="dropdown-item">SIGNUP</a>
+                      <a href="/auth/login" class="dropdown-item">LOGIN</a>
+                      <a href="/auth/logout" class="dropdown-item">LOGOUT</a>
+                    </div>
+                  </div>
+                <!-- <div class="user_option">
                   <a href="" class="user_link">
-                    <i class="fa fa-user" aria-hidden="true">
-
-                    </i>
-                  </a>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                  </a> -->
                   <a class="cart_link" href="#">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                       <g>
@@ -329,6 +370,22 @@
   <!-- custom js -->
   <script src="{% static 'js/custom.js' %}"></script>
   <!-- Google Map -->
+  <script>
+    function toggleDropdown() {
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      dropdownMenu.style.display =
+        dropdownMenu.style.display === "block" ? "none" : "block";
+    }
+  
+    // Close dropdown when clicking outside
+    window.addEventListener("click", function (event) {
+      const dropdown = document.getElementById("userDropdown");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      if (!dropdown.contains(event.target)) {
+        dropdownMenu.style.display = "none";
+      }
+    });
+  </script>
  
   <!-- End Google Map -->
 </body>

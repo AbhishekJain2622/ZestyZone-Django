@@ -1,8 +1,8 @@
 {%extends 'base.html' %}
-{% block title %}About{% endblock %}
+{% block title %}contact{% endblock %}
 {% load static %}
 {% block slider %}
-<div class="hero_area">
+<div class="hero_area ">
   <div class="bg-box">
     <img src="{% static 'images/14.jpg' %}" style="max-width: 100%;  height: inherit;">
   </div>
@@ -22,10 +22,10 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav  mx-auto ">
-            <li class="nav-item active">
+            <!-- <li class="nav-item active">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
               <a class="nav-link" href="/menu">Menu</a>
             </li>
             <li class="nav-item">
@@ -33,12 +33,14 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/contact">Contact</a>
-            </li>
+            </li> -->
           </ul>
           <div class="user_option">
-            <a href="" class="user_link">
+            <a class="nav-link" href="/" style="color: #ffbe33;" >Home <span class="sr-only">(current)</span></a>
+
+            <!-- <a href="" class="user_link">
               <i class="fa fa-user" aria-hidden="true"></i>
-            </a>
+            </a> -->
             <a class="cart_link" href="#">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                 <g>
@@ -98,9 +100,24 @@
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
             </form>
-            <a href="" class="order_online">
+            <div class="dropdown">
+              <a href="javascript:void(0)" class="user_link" id="userDropdown" onclick="toggleDropdown()">
+                <i class="fa fa-angle-down" style="font-size: x-large;"></i>
+              </a>
+              <div id="dropdownMenu" class="dropdown-menu" style="background: burlywood; border: none;">
+                <a href="/auth/signup" class="dropdown-item">SIGNUP</a>
+                <a href="/auth/login" class="dropdown-item">LOGIN</a>
+                <a class="dropdown-item" href="/menu">Menu</a>
+                <a class="dropdown-item" href="/about">About</a>
+                <a class="dropdown-item" href="/contact">Contact</a>
+                
+                <!-- <a href="/auth/logout" class="dropdown-item">LOGOUT</a> -->
+              </div>
+            </div>
+
+            <!-- <a href="" class="order_online">
               Order Online
-            </a>
+            </a> -->
           </div>
         </div>
       </nav>
@@ -110,7 +127,7 @@
   {% block sliderl %}
   
   <!-- book section -->
-  <section class="book_section layout_padding">
+  <section class="book_section layout_padding ">
     <div class="container" >
       <div class="heading_container">
         <h2 style="color: aliceblue;">

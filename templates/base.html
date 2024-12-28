@@ -90,19 +90,21 @@
 
 </head>
 <body>
-    {% block slider %}
+   
 
-    <div class="hero_area">
-        <div class="bg-box">
-          <img src="{% static 'images/17.jpg' %}" alt="">
-        </div>
         <!-- header section strats -->
-        <header class="header_section">
+        <header class="header_section" style="background: linear-gradient(to right, #803434, #B8860B); /* Red to Gold */
+        color: white; /* Ensure text stands out */
+        padding: 20px;">
           <div class="container">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
               <a class="navbar-brand" href="/">
                 <span>
+
+                  <!-- <img src="{% static 'images/pngg.png' %}"  style=" height: 100px; width: 220px; margin: 0px; padding: 0px;"alt=""> -->
                   ZestyZone
+                  
+                  <!-- <img src="{% static 'images/horizontal-logo.png' %}" style="height: 100px; width: 100px; " alt=""> -->
                 </span>
               </a>
     
@@ -112,24 +114,10 @@
     
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav  mx-auto ">
-                  <!-- <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                  </li> -->
-                  <!-- <li class="nav-item">
-                    <a class="nav-link" href="/menu">Menu</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact</a>
-                  </li> -->
                 </ul>
                 <div class="user_option">
                   <a href="/">
-                    <svg xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"></path>
-                    </svg>
+                    <img src="{% static 'images\icons8-home-24.png' %}"  alt="">
                 </a>
                 
                     <!-- <a class="nav-link" href="/" style="color: #ffbe33;" >Home <span class="sr-only">(current)</span></a> -->
@@ -147,6 +135,8 @@
                       {% endif %}
                     </div>
                   </div> -->
+
+
                   <a class="cart_link" href="#">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                       <g>
@@ -214,24 +204,24 @@
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form>
-                  <div class="dropdown" style="margin-right: 20px;">
+                   <div class="dropdown">
                     <a href="javascript:void(0)" class="user_link" id="userDropdown" onclick="toggleDropdown()">
-                      <i class="fa fa-user" aria-hidden="true"></i>
+                      <i class="fa fa-angle-down" style="font-size: x-large;"  aria-hidden="true"></i>
                     </a>
-                    <div id="dropdownMenu" class="dropdown-menu" style=" font-size: small; background: burlywood; border: none;">
+
+                    <div id="dropdownMenu" class="dropdown-menu" style=" font-size: small;background:none; border:solid 0.5px ; ">
                       {% if not request.user.is_authenticated %}
-                      <a href="/auth/signup" class="dropdown-item">SIGNUP</a>
-                      <a href="/auth/login" class="dropdown-item">LOGIN</a>
+                      <a href="/auth/signup" class="dropdown-item" style="color: rgb(197, 197, 8);">SIGNUP</a>
+                      <a href="/auth/login" class="dropdown-item"  style="color: rgb(197, 197, 8);">LOGIN</a>
                       {% else %}
                       
-                      <a href="/auth/logout" class="dropdown-item">LOGOUT</a>
+                      <a href="/auth/logout" class="dropdown-item" style="color: rgb(197, 197, 8);">LOGOUT</a>
                       {% endif %}
-                      <a class="dropdown-item" href="/menu">Menu</a>
-                      <a class="dropdown-item" href="/about">About</a>
-                      <a class="dropdown-item" href="/contact">Contact</a>
-                     
-                    </div>
+                      <a class="dropdown-item" href="/menu" style="color: rgb(197, 197, 8);">Menu</a>
+                      <a class="dropdown-item" href="/about" style="color: rgb(197, 197, 8);">About</a>
+                      <a class="dropdown-item" href="/contact" style="color: rgb(197, 197, 8);">Contact</a>
                   </div>
+                </div>
                   <!-- <a href="" class="order_online">
                     Order Online
                   </a> -->
@@ -243,6 +233,10 @@
         <!-- end header section -->
         <!-- slider section -->
          {% block sliderl %}
+         <div class="hero_area">
+          <div class="bg-box">
+            <img src=  "{% static 'images/5.jpg' %}"  alt="" >
+          </div>
         <section class="slider_section ">
           <div id="customCarousel1" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -251,14 +245,13 @@
                   <div class="row">
                     <div class="col-md-7 col-lg-6 ">
                       <div class="detail-box">
-                        <h1>
-                          Fast Food Restaurant
-                        </h1>
-                        <p>
-                          Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
-                        </p>
+                        <h2 style=" font-style: italic; color:rgb(246, 226, 7); font-family:fantasy;">
+                          Zesty Flavors Zero Compromise
+                        </h2>
+                        <p style=" color:rgb(255, 255, 255); font-style: italic; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+                          Dive into a world of bold flavors and irresistible taste.                        </p>
                         <div class="btn-box">
-                          <a href="" class="btn1">
+                          <a href="/menu/" class="btn1" style="color: black;">
                             Order Now
                           </a>
                         </div>
@@ -272,14 +265,14 @@
                   <div class="row">
                     <div class="col-md-7 col-lg-6 ">
                       <div class="detail-box">
-                        <h1>
-                          Fast Food Restaurant
-                        </h1>
-                        <p>
-                          Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                        <h2 style="color:rgb(246, 226, 7); font-style: italic; font-family:fantasy;" >
+                          Satisfy Your Cravings, One Bite at a Time
+                        </h2>
+                        <p style=" font-style: italic; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+                          Experience the zest of mouthwatering fast food that will leave you wanting more.
                         </p>
                         <div class="btn-box">
-                          <a href="" class="btn1">
+                          <a href="/menu/" class="btn1" style="color: black;">
                             Order Now
                           </a>
                         </div>
@@ -293,14 +286,15 @@
                   <div class="row">
                     <div class="col-md-7 col-lg-6 ">
                       <div class="detail-box">
-                        <h1>
-                          Fast Food Restaurant
-                        </h1>
-                        <p>
-                          Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                        <h2 style=" color:rgb(246, 226, 7); font-style: italic; font-family: fantasy;">
+                          Fast Fun and Flavorfull
+
+                        </h2>
+                        <p style="font-style: italic; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">
+                          Discover fast food that's a feast for your taste buds and perfect for every mood.
                         </p>
                         <div class="btn-box">
-                          <a href="" class="btn1">
+                          <a href="/menu/" class="btn1" style="color: black;">
                             Order Now
                           </a>
                         </div>
@@ -318,12 +312,11 @@
               </ol>
             </div>
           </div>
-    
         </section>
         <!-- end slider section -->
     {% endblock sliderl %}
       </div>
-    {% endblock slider %}
+   
 
     {% block content %}
   
@@ -331,7 +324,7 @@
 
      <!-- footer section -->
   {% block footer %}
-  <footer class="footer_section">
+  <footer class="footer_section" style="background-color:black ;">
     <h4>Contact Us</h4>
     <p>Feel free to reach out to us for any inquiries.</p>
     

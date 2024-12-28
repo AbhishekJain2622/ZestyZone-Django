@@ -58,5 +58,5 @@ def Contact(request):
 def Ouroffer(request):
     obj=Offer.objects.all()
     context={"objs":obj}
-    return render(request,'base.html',context)
+    return render(request,'menu.html',context)
 

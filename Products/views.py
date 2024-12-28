@@ -4,6 +4,8 @@ from .models import *
 from math import ceil
 from django.db.models import Q
 
+
+
 # Create your views here.
 def Home(request):
     return render(request,'base.html')
@@ -21,9 +23,7 @@ def search_view(request):
         )
     return render(request, 'search.html', {'query': query, 'results': results})
 
-from django.shortcuts import render
-from math import ceil
-from .models import Product  # Import your Product model
+
 
 def menu(request):
     # Fetch all products grouped by categories

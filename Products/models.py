@@ -28,3 +28,11 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.Offer_name
+    
+    class AboutMe(models.Model):
+        name=models.CharField(max_length=60)
+        objective=models.TextField()
+        img2 = models.ImageField(upload_to='images')
+    
+        def __str__(self):
+            return self.name

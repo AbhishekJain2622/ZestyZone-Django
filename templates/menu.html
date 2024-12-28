@@ -2,15 +2,6 @@
 {% block title %}Menu{% endblock %}
 {% load static %}
 {% block content %}
-<style>
-      .filters_menu li.active {
-    color: #fff;
-    background-color: #ff9800;
-    border-radius: 5px;
-    padding: 5px 10px;
-  }
-
-</style>
 <section class="food_section layout_padding-bottom">
   <div class="container">
     <div class="heading_container heading_center">
@@ -40,12 +31,19 @@
                   <p>{{ item.desc|slice:"0:53" }}...</p>
                   <div class="options">
                     <h6>${{ item.price }}</h6>
-                    <a href="#">
+                    <button 
+                      class="add-to-cart-btn" 
+                      data-id="{{ item.id }}" 
+                      data-name="{{ item.product_name }}" 
+                      data-price="{{ item.price }}">
+                      Add to Cart
+                    </button>
+                    <!-- <a href="#">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M351.9 329.506H206.81l-3.072-12.56H368.16l26.63-116.019-217.23-26.04-9.952-58.09h-50.4v21.946h31.894l35.233 191.246a32.927 32.927 0 1 0 36.363 21.462h100.244a32.825 32.825 0 1 0 30.957-21.945zM181.427 197.45l186.51 22.358-17.258 75.195H198.917z" data-name="Shopping Cart"/></svg>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248"></path>
-                        <!-- SVG content omitted for brevity -->
+                        
                       </svg>
-                    </a>
+                    </a> -->
                   </div>
                 </div>
               </div>
@@ -58,7 +56,7 @@
 
 </section>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
             const filterMenu = document.querySelectorAll(".filters_menu li");
             const products = document.querySelectorAll(".grid .all");
         
@@ -80,7 +78,67 @@
               });
             });
           });
-</script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cart = [];
+    const cartCount = document.getElementById("cart-count");
+    const popcart = document.getElementById("popcart");
+  
+    // Function to update cart display
+    function updateCartDisplay() {
+      // Update cart count
+      cartCount.textContent = cart.length;
+  
+      // Generate HTML for cart items
+      let cartHTML = cart
+        .map(
+          (item) =>
+            `<div class="cart-item">
+              <span>${item.name} - $${item.price}</span>
+              <button class="remove-item btn btn-sm btn-danger" data-id="${item.id}">Remove</button>
+            </div>`
+        )
+        .join("");
+  
+      // If cart is empty, show "No items"
+      if (cart.length === 0) {
+        cartHTML = "<p>No items in the cart</p>";
+      }
+  
+      // Update the popover content
+      $(popcart).attr("data-content", cartHTML);
+    }
+  
+    // Add to cart functionality
+    document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.getAttribute("data-id");
+        const name = button.getAttribute("data-name");
+        const price = button.getAttribute("data-price");
+  
+        // Add product to cart
+        cart.push({ id, name, price });
+        updateCartDisplay();
+      });
+    });
+  
+    // Initialize Bootstrap popover
+    $(popcart).popover();
+  
+    // Event listener for dynamically created remove buttons
+    $(document).on("click", ".remove-item", function () {
+      const id = $(this).data("id");
+      const index = cart.findIndex((item) => item.id === id);
+  
+      // Remove item from cart
+      if (index > -1) {
+        cart.splice(index, 1);
+      }
+  
+      updateCartDisplay();
+    });
+  });
+  </script>
+  
 {% endblock content %}
 {% block footer %} 
 {% endblock footer %}

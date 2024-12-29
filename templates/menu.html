@@ -194,14 +194,27 @@
                   <p>{{ item.desc|slice:"0:53" }}...</p>
                   <div class="options">
                     <h6>${{ item.price }}</h6>
+
                     <button
                       class="add-to-cart-btn" 
                       data-id="{{ item.id }}" 
                       data-name="{{ item.product_name }}" 
-                      data-price="{{ item.price }}"  style="background: linear-gradient(to right, #803434, #B8860B);">
-                      <img src="{% static 'images/cart.png' %}" style=" width: 22px;" alt="Cart" class="fa fa-shopping-cart" id="popcart" data-toggle="popover" data-placement="bottom">
 
-                    </button>
+                      data-price="{{ item.price }}"  style= " background: linear-gradient(to right, #803434, #B8860B) ;  display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: linear-gradient(to right, #803434, #B8860B);
+                      width: 150px;
+                      padding: 10px;
+                      border: none;
+                      color: white;
+                      font-weight: bold;
+                      font-size: 14px;
+                      border-radius:20px;">
+                      <span style="margin-right: 8px;">Add to Cart</span>
+                      <img src="{% static 'images/cart.png' %}" style=" width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart" id="popcart" data-toggle="popover" data-placement="bottom" >
+                    
+                  </button>
                     <!-- <a href="#">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M351.9 329.506H206.81l-3.072-12.56H368.16l26.63-116.019-217.23-26.04-9.952-58.09h-50.4v21.946h31.894l35.233 191.246a32.927 32.927 0 1 0 36.363 21.462h100.244a32.825 32.825 0 1 0 30.957-21.945zM181.427 197.45l186.51 22.358-17.258 75.195H198.917z" data-name="Shopping Cart"/></svg>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248"></path>

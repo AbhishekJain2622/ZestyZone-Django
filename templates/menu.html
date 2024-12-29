@@ -187,7 +187,11 @@
             <div class="col-sm-6 col-lg-4 all" data-category="{{ item.category|lower }}">
               <div class="box">
                 <div class="img-box">
-                  <img src="/media/{{ item.image }}" alt="{{ item.product_name }}">
+                  <img 
+                    src="{% if item.image %}/media/{{ item.image }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" 
+                    alt="{{ item.product_name }}" 
+                    class="product-image"
+                  >
                 </div>
                 <div class="detail-box">
                   <h5>{{ item.product_name }}</h5>
@@ -199,6 +203,7 @@
                       class="add-to-cart-btn" 
                       data-id="{{ item.id }}" 
                       data-name="{{ item.product_name }}" 
+<<<<<<< HEAD
 
                       data-price="{{ item.price }}"  style= " background: linear-gradient(to right, #803434, #B8860B) ;  display: flex;
                       align-items: center;
@@ -221,6 +226,12 @@
                         
                       </svg>
                     </a> -->
+=======
+                      data-price="{{ item.price }}"
+                      style="background: linear-gradient(to right, #803434, #B8860B);">
+                      <img src="{% static 'images/cart.png' %}" style="width: 22px;" alt="Cart">
+                    </button>
+>>>>>>> 8c54d9bcc69126e2013f005495df6d17756fdfb7
                   </div>
                 </div>
               </div>
@@ -231,89 +242,127 @@
     </div>
   </div>
 
+  <!-- Cart Popup -->
+  <div id="cart-popup" style="display: none; position: fixed; top: 20%; right: 10%; background: white; border: 1px solid #ccc; padding: 20px; width: 300px; z-index: 1000;">
+    <div id="cart-items-list" class="cart-items-list"></div>
+    <div id="cart-summary" class="cart-summary"></div>
+    <button id="clear-cart-btn" style="margin-top: 10px; background-color: red; color: white; padding: 5px 10px;">Clear Cart</button>
+    <button id="close-cart-btn" style="margin-top: 10px; background-color: #555; color: white; padding: 5px 10px;">Close</button>
+  </div>
 </section>
+
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-            const filterMenu = document.querySelectorAll(".filters_menu li");
-            const products = document.querySelectorAll(".grid .all");
-        
-            filterMenu.forEach(filter => {
-              filter.addEventListener("click", () => {
-                // Remove active class from all filters and add to clicked filter
-                filterMenu.forEach(item => item.classList.remove("active"));
-                filter.classList.add("active");
-        
-                const filterValue = filter.getAttribute("data-filter");
-        
-                products.forEach(product => {
-                  if (filterValue === "all" || product.getAttribute("data-category") === filterValue) {
-                    product.style.display = "block"; // Show matching products
-                  } else {
-                    product.style.display = "none"; // Hide non-matching products
-                  }
-                });
-              });
-            });
-          });
-  document.addEventListener("DOMContentLoaded", () => {
-    const cart = [];
-    const cartCount = document.getElementById("cart-count");
-    const popcart = document.getElementById("popcart");
-  
-    // Function to update cart display
-    function updateCartDisplay() {
-      // Update cart count
-      cartCount.textContent = cart.length;
-  
-      // Generate HTML for cart items
-      let cartHTML = cart
-        .map(
-          (item) =>
-            `<div class="cart-item">
-              <span>${item.name} - $${item.price}</span>
-              <button class="remove-item btn btn-sm btn-danger" data-id="${item.id}">Remove</button>
-            </div>`
-        )
-        .join("");
-  
-      // If cart is empty, show "No items"
-      if (cart.length === 0) {
-        cartHTML = "<p>No items in the cart</p>";
-      }
-  
-      // Update the popover content
-      $(popcart).attr("data-content", cartHTML);
+ document.addEventListener("DOMContentLoaded", () => {
+  // Variables
+  const filterMenu = document.querySelectorAll(".filters_menu li");
+  const products = document.querySelectorAll(".grid .all");
+  const cartPopup = document.getElementById("cart-popup");
+  const cartItemsList = document.getElementById("cart-items-list");
+  const cartSummary = document.getElementById("cart-summary");
+  const clearCartBtn = document.getElementById("clear-cart-btn");
+  const closeCartBtn = document.getElementById("close-cart-btn");
+
+  let cart = [];
+  let cartItemCount = 0;
+
+  // Filter Menu Functionality
+  filterMenu.forEach(filter => {
+    filter.addEventListener("click", () => {
+      // Remove active class and add it to the selected filter
+      filterMenu.forEach(item => item.classList.remove("active"));
+      filter.classList.add("active");
+
+      const filterValue = filter.getAttribute("data-filter");
+
+      // Show or hide products based on the filter
+      products.forEach(product => {
+        if (filterValue === "all" || product.getAttribute("data-category") === filterValue) {
+          product.style.display = "block";
+        } else {
+          product.style.display = "none";
+        }
+      });
+    });
+  });
+
+  // Update Cart Display
+  function updateCartDisplay() {
+    cartItemsList.innerHTML = "";
+    let total = 0;
+
+    // Display cart items or show "No items in cart"
+    if (cart.length === 0) {
+      cartItemsList.innerHTML = "<p>No items in the cart</p>";
+      cartSummary.innerHTML = "";
+      return;
     }
-  
-    // Add to cart functionality
-    document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
+
+    // Add items to cart popup and calculate total
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+      const listItem = document.createElement("div");
+      listItem.className = "cart-item";
+      listItem.innerHTML = `
+        <div>
+          <span>${item.name} - $${item.price} x${item.quantity}</span>
+          <button class="remove-item" data-index="${index}" style="background-color: red; color: white; margin-left: 10px; padding: 5px;">Remove</button>
+        </div>
+      `;
+      cartItemsList.appendChild(listItem);
+    });
+
+    // Update cart summary
+    cartSummary.innerHTML = `
+      <p>Total Items: ${cartItemCount}</p>
+      <p>Total Price: $${total.toFixed(2)}</p>
+    `;
+
+    // Add remove functionality to each button
+    document.querySelectorAll(".remove-item").forEach(button => {
       button.addEventListener("click", () => {
-        const id = button.getAttribute("data-id");
-        const name = button.getAttribute("data-name");
-        const price = button.getAttribute("data-price");
-  
-        // Add product to cart
-        cart.push({ id, name, price });
+        const index = button.getAttribute("data-index");
+        const removedItem = cart[index];
+        cartItemCount -= removedItem.quantity;
+        cart.splice(index, 1);
         updateCartDisplay();
       });
     });
-  
-    // Initialize Bootstrap popover
-    $(popcart).popover();
-  
-    // Event listener for dynamically created remove buttons
-    $(document).on("click", ".remove-item", function () {
-      const id = $(this).data("id");
-      const index = cart.findIndex((item) => item.id === id);
-  
-      // Remove item from cart
-      if (index > -1) {
-        cart.splice(index, 1);
+  }
+
+  // Add to Cart Functionality
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      const id = button.getAttribute("data-id");
+      const name = button.getAttribute("data-name");
+      const price = parseFloat(button.getAttribute("data-price"));
+
+      // Check if item already exists in cart
+      const existingItem = cart.find(item => item.id === id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id, name, price, quantity: 1 });
       }
-  
+
+      cartItemCount++;
       updateCartDisplay();
+      cartPopup.style.display = "block"; // Show cart popup
     });
   });
+
+  // Clear Cart Functionality
+  clearCartBtn.addEventListener("click", () => {
+    cart = [];
+    cartItemCount = 0;
+    updateCartDisplay();
+  });
+
+  // Close Cart Popup
+  closeCartBtn.addEventListener("click", () => {
+    cartPopup.style.display = "none";
+  });
+});
+
   </script>
   
 {% endblock content %}

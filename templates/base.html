@@ -66,72 +66,120 @@
       display: inline-block;
     }
 /* Position the cart container to ensure the count can be positioned relative to it */
-.cart-container {
-    position: relative;
-    display: inline-block;
-}
-
-/* Style for the cart count badge */
-.cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 18px;
-    display: none;  /* Hidden by default */
-}
-
-/* Show the badge when there is a count */
-.cart-count.show {
-    display: inline-block;
-}
-
-/* Cart Popup Styles */
+/* ------------------------------------------------------------------------------------- */
 .cart-popup {
-    display: none;  /* Hidden by default */
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 300px;
-    padding: 15px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    z-index: 1000;
+  display: block; /* Ensure the popup is visible */
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgb(8, 7, 7);
+  border: 1px solid #000000;
+  padding: 15px;
+  width: 300px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px; /* Add rounded corners */
 }
 
-.cart-popup ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.cart-items-list {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 10px; /* Add spacing between items */
 }
 
-.cart-popup ul li {
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+.cart-item {
+  display: flex;
+  justify-content: space-between; /* Align name/price and button */
+  align-items: center; /* Center-align vertically */
+  background: #0e0b0b; /* Light background for items */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-name {
+  font-weight: bold;
+}
+
+.item-price,
+.item-quantity {
+  margin-left: 10px;
+  color: #555;
+}
+
+.remove-item {
+  background-color: #d9534f;
+  color: rgb(32, 23, 23);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 #clear-cart-btn {
-    margin-top: 10px;
-    padding: 8px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 10px;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%; /* Stretch the clear button */
 }
 
-#clear-cart-btn:hover {
-    background-color: darkred;
+.cart-summary {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: right;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
 }
+
+#cart-popup {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#cart-popup[style*="block"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Additional Styling from Your Original Setup */
+.cart-container {
+  position: relative;
+}
+
+.cart_link {
+  position: relative;
+  text-decoration: none;
+}
+
+#cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  display: none; /* Default: hide the badge */
+}
+#cart-count.show {
+  display: inline-block; /* Show only when there’s a count */
+}
+img#popcart {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------------------------- */
 
 
 </style>
@@ -142,6 +190,7 @@
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!--owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
@@ -200,29 +249,29 @@
                     </div>
                   </div> -->
 
-
-                  <a class="cart_link" href="#">
-                    <!-- <img src="{% static 'images/cart.png' %}" style="width: 22px;" alt="" class="fa fa-shopping-cart"  data-html="true" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" >
-                    <span id="cart-count"></span>
-                   -->
-                   <!-- <img src="{% static 'images/cart.png' %}" style="width: 22px;" alt="Cart" class="fa fa-shopping-cart" data-html="true" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom"> -->
-
-                   <!-- Cart count that will be updated -->
-                   <!-- <span id="cart-count" class="cart-count"></span> -->
-
 <!-- 
-                   <div class="cart-container" style="position: relative;">
-                    <img src="{% static 'images/cart.png' %}" style="width: 22px;" alt="Cart" class="fa fa-shopping-cart" id="popcart">
-                    <span id="cart-count" class="cart-count"></span>
-                </div> -->
-               
-                        <!-- Cart icon and the cart count -->
+                  <a class="cart_link" href="#">
+                        
                         <div class="cart-container" style="position: relative;">
                           <img src="{% static 'images/cart.png' %}" style="height: 25px; width: 25px;" alt="Cart" class="fa fa-shopping-cart" id="popcart" data-toggle="popover" data-placement="bottom">
                           <span id="cart-count" class="cart-count"></span>
+                          
                         </div>
-
-
+                       -->
+                        
+                       <div class="cart-container" style="position: relative;">
+                        <a class="cart_link" href="#">
+                          <img src="{% static 'images/cart.png' %}" style="height: 25px; width: 25px;" alt="Cart" id="popcart">
+                          <span id="cart-count" class="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: rgb(43, 35, 35); border-radius: 50%; padding: 2px 6px; font-size: 12px;"></span>
+                        </a>
+                        <!-- Cart Popup -->
+                        <div id="cart-popup" style="display: none; position: absolute; top: 35px; right: 0; background: rgb(7, 6, 6); border: 1px solid #201717; padding: 10px; width: 300px; z-index: 1000; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                          <div id="cart-items-list" class="cart-items-list"></div>
+                          <div id="cart-summary" class="cart-summary" style="margin-top: 10px; font-weight: bold;"></div>
+                          <button id="clear-cart-btn" style="margin-top: 10px; background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">Clear Cart</button>
+                        </div>
+                      </div>
+                      
 
                 
                   <!-- <a class="cart_link" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" href="#"> -->
@@ -304,7 +353,7 @@
                       <a href="/auth/signup" class="dropdown-item" style="color: rgb(197, 197, 8);">SIGNUP</a>
                       <a href="/auth/login" class="dropdown-item"  style="color: rgb(197, 197, 8);">LOGIN</a>
                       {% else %}
-                      
+                      <a class="dropdown-item" href="/checkout" style="color: rgb(197, 197, 8);">Checkout</a>
                       <a href="/auth/logout" class="dropdown-item" style="color: rgb(197, 197, 8);">LOGOUT</a>
                       {% endif %}
                       <a class="dropdown-item" href="/menu" style="color: rgb(197, 197, 8);">Menu</a>
@@ -429,6 +478,7 @@
   </footer>
  
   {% endblock footer %}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
      
   <!-- jQery -->
@@ -449,104 +499,146 @@
   <script src="{% static 'js/custom.js' %}"></script>
 
   <script>
-    function toggleDropdown() {
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      dropdownMenu.style.display =
+   // Toggle dropdown menu
+function toggleDropdown() {
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownMenu.style.display =
         dropdownMenu.style.display === "block" ? "none" : "block";
-    }
-  
-    // Close dropdown when clicking outside
-    window.addEventListener("click", function (event) {
-      const dropdown = document.getElementById("userDropdown");
-      const dropdownMenu = document.getElementById("dropdownMenu");
-      if (!dropdown.contains(event.target)) {
+}
+
+// Close dropdown when clicking outside
+window.addEventListener("click", function (event) {
+    const dropdown = document.getElementById("userDropdown");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    if (!dropdown.contains(event.target)) {
         dropdownMenu.style.display = "none";
-      }
-    });
-    function toggleSearch() {
-      const searchInput = document.getElementById('searchInput');
-      searchInput.classList.toggle('active');
-      if (searchInput.classList.contains('active')) {
+    }
+});
+
+// Toggle search bar
+function toggleSearch() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
         searchInput.focus();
-      }
-    }
- 
- // Function to update the cart count
-function updateCartCount(count) {
-    var cartCountElement = document.getElementById('cart-count');
-    
-    // If count is greater than 0, show the badge with the count
-    if (count > 0) {
-        cartCountElement.textContent = count;  // Set the count number
-        cartCountElement.classList.add('show');  // Show the cart count badge
-    } else {
-        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
-    }
-}
-// Function to update the cart count
-function updateCartCount(count) {
-    var cartCountElement = document.getElementById('cart-count');
-    
-    if (count > 0) {
-        cartCountElement.textContent = count;  // Set the count number
-        cartCountElement.classList.add('show');  // Show the cart count badge
-    } else {
-        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
     }
 }
 
-
-// -----------------------------------
-// Cart items list (in an array) to store the items added to the cart
-let cartItems = [];
-let cartItemCount = 0;
-
-// Function to update the cart count and show it
+// --------------------------------------------------------------
+// Function to update the cart count badge
 function updateCartCount(count) {
     const cartCountElement = document.getElementById('cart-count');
+    
     if (count > 0) {
         cartCountElement.textContent = count;  // Set the count number
         cartCountElement.classList.add('show');  // Show the cart count badge
     } else {
-        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
+        cartCountElement.textContent = '';  // Clear the badge text
+        cartCountElement.classList.remove('show');  // Hide the badge
     }
 }
 
-// Function to update the cart popup with item details
+// Function to update the cart popup with structured data
 function updateCartPopup() {
     const cartItemsList = document.getElementById('cart-items-list');
-    cartItemsList.innerHTML = '';  // Clear the current list
-    cartItems.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = item;
+    const cartSummary = document.getElementById('cart-summary');
+    cartItemsList.innerHTML = ''; // Clear current list
+
+    if (cartItems.length === 0) {
+        cartItemsList.innerHTML = '<div>No items in the cart</div>';
+        cartSummary.innerHTML = ''; // Clear summary if no items
+        return;
+    }
+
+    let total = 0;
+
+    // Add structured cart items to the list
+    cartItems.forEach((item, index) => {
+        total += item.price * item.quantity; // Calculate total
+
+        const listItem = document.createElement('div');
+        listItem.className = 'cart-item';
+        listItem.innerHTML = `
+            <div class="item-details">
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">$${item.price.toFixed(2)}</span>
+                <span class="item-quantity">x${item.quantity}</span>
+            </div>
+            <button class="remove-item" data-index="${index}" style="margin-left: 10px; background-color: #d9534f; color: white; border: none; padding: 5px;">Remove</button>
+        `;
         cartItemsList.appendChild(listItem);
+    });
+
+    // Update cart summary
+    cartSummary.innerHTML = `
+        <div>Total Items: ${cartItemCount}</div>
+        <div>Total Price: $${total.toFixed(2)}</div>
+    `;
+
+    // Add event listeners to "Remove" buttons
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemIndex = this.getAttribute('data-index');
+            removeCartItem(itemIndex);
+        });
     });
 }
 
-// Function to handle Add to Cart button clicks
+// --------------------------------------------------------------
+// Handle Add to Cart button clicks
+let cartItems = []; // Array to store cart items
+let cartItemCount = 0;
+
 document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const itemName = this.getAttribute('data-item');
-        cartItems.push(itemName);  // Add the item to the cart array
-        cartItemCount++;  // Increase the cart item count
-        updateCartCount(cartItemCount);  // Update the cart count display
-        updateCartPopup();  // Update the cart popup with new items
+    button.addEventListener('click', function () {
+        const itemName = this.getAttribute('data-name');
+        const itemPrice = parseFloat(this.getAttribute('data-price'));
+        const existingItem = cartItems.find(item => item.name === itemName);
+
+        if (existingItem) {
+            existingItem.quantity += 1; // Increment quantity if item already in cart
+        } else {
+            cartItems.push({ name: itemName, price: itemPrice, quantity: 1 });
+        }
+
+        cartItemCount++;
+        updateCartCount(cartItemCount);
+        updateCartPopup();
     });
 });
 
-// Function to show the cart popup
-document.getElementById('popcart').addEventListener('click', function() {
-    const cartPopup = document.getElementById('cart-popup');
-    cartPopup.style.display = (cartPopup.style.display === 'block') ? 'none' : 'block';  // Toggle visibility
+// Remove item from the cart
+function removeCartItem(index) {
+    const item = cartItems[index];
+    cartItemCount -= item.quantity; // Decrement cart count by item quantity
+    cartItems.splice(index, 1); // Remove the item from the cart
+    updateCartCount(cartItemCount);
+    updateCartPopup();
+}
+
+// --------------------------------------------------------------
+// Toggle cart popup visibility
+const cartPopup = document.getElementById('cart-popup');
+document.getElementById('popcart').addEventListener('click', function (event) {
+    event.stopPropagation(); // Prevent click event from propagating
+    cartPopup.style.display = cartPopup.style.display === 'block' ? 'none' : 'block';
 });
 
-// Function to clear the cart (empty the cart items)
-document.getElementById('clear-cart-btn').addEventListener('click', function() {
-    cartItems = [];  // Clear the cart items array
-    cartItemCount = 0;  // Reset the cart item count
-    updateCartCount(cartItemCount);  // Update the cart count
-    updateCartPopup();  // Update the cart popup to reflect the empty cart
+// Close the cart popup when clicking outside of it
+document.addEventListener('click', function (event) {
+    if (!cartPopup.contains(event.target) && event.target.id !== 'popcart') {
+        cartPopup.style.display = 'none';
+    }
 });
+
+// Clear the cart
+document.getElementById('clear-cart-btn').addEventListener('click', function () {
+    cartItems = [];
+    cartItemCount = 0;
+    updateCartCount(cartItemCount);
+    updateCartPopup();
+});
+
 
   </script>
 

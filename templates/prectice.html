@@ -1,91 +1,305 @@
+<style>
+  .cart-container {
+  position: relative;
+  display: inline-block;
+}
 
-  <!-- --------------------------------------- -->
-  <style>
-    .filters_menu li.active {
-  color: #fff;
-  background-color: #ff9800;
+/* Style for the cart count badge */
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  display: none;  /* Hidden by default */
+}
+
+/* Show the badge when there is a count */
+.cart-count.show {
+  display: inline-block;
+}
+
+/* Cart Popup Styles */
+.cart-popup {
+  display: none;  /* Hidden by default */
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 300px;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  padding: 5px 10px;
+  z-index: 1000;
+}
+
+.cart-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-popup ul li {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+#clear-cart-btn {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-cart-btn:hover {
+  background-color: darkred;
 }
 
 </style>
-<section class="food_section layout_padding-bottom">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Our Menu</h2>
-      </div>
-  
-      <!-- Filter Menu -->
-      <ul class="filters_menu">
-        <li class="active" data-filter="all">All</li>
-        <li data-filter="burger">Burger</li>
-        <li data-filter="pizza">Pizza</li>
-        <li data-filter="pasta">Pasta</li>
-        <li data-filter="fries">Fries</li>
-      </ul>
-  
-      <div class="filters-content">
-        {% for product, range, nSlides in allProds %}
-          <!-- Flash Sale Heading -->
-          <h3 class="my-3 text-center text-success bg-light">
-            {{ product.0.category }} Flashsale
-          </h3>
-  
-          <div class="container">
-            <div class="row grid">
-              {% for i in product %}
-                <div class="col-sm-6 col-lg-3 all" data-category="{{ i.category|lower }}">
-                  <div class="box">
-                    <div class="img-box">
-                      <img src="/media/{{ i.image }}" class="card-img-top" alt="{{ i.product_name }}" height="200px" width="150px" />
-                    </div>
-                    <div class="detail-box">
-                      <h5 id="namepr{{ i.id }}">{{ i.product_name }}</h5>
-                      <p>{{ i.desc|slice:"0:53" }}...</p>
-                      <h6 class="card-title mb-3">
-                        Price: <span id="pricepr{{ i.id }}">{{ i.price }}</span>
-                      </h6>
-                      <span id="divpr{{ i.id }}" class="divpr">
-                        <button id="pr{{ i.id }}" class="btn btn-danger cart btn-sm mt-0">
-                          AddToCart <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                      </span>
-                      <a href="/media/{{ i.image }}">
-                        <button class="btn btn-dark btn-sm cart"><i class="fa-solid fa-eye"></i></button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
 <script>
+  
+// -----------------------------------
+// Cart items list (in an array) to store the items added to the cart
+let cartItems = [];
+let cartItemCount = 0;
 
-// -------------------------------------------------------
-  document.addEventListener("DOMContentLoaded", () => {
-          const filterMenu = document.querySelectorAll(".filters_menu li");
-          const products = document.querySelectorAll(".grid .all");
-      
-          filterMenu.forEach(filter => {
-            filter.addEventListener("click", () => {
-              // Remove active class from all filters and add to clicked filter
-              filterMenu.forEach(item => item.classList.remove("active"));
-              filter.classList.add("active");
-      
-              const filterValue = filter.getAttribute("data-filter");
-      
-              products.forEach(product => {
-                if (filterValue === "all" || product.getAttribute("data-category") === filterValue) {
-                  product.style.display = "block"; // Show matching products
-                } else {
-                  product.style.display = "none"; // Hide non-matching products
-                }
-              });
-            });
-          });
-        });
+// Function to update the cart count and show it
+function updateCartCount(count) {
+    const cartCountElement = document.getElementById('cart-count');
+    if (count > 0) {
+        cartCountElement.textContent = count;  // Set the count number
+        cartCountElement.classList.add('show');  // Show the cart count badge
+    } else {
+        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
+    }
+}
+
+// Function to update the cart popup with item details
+function updateCartPopup() {
+    const cartItemsList = document.getElementById('cart-items-list');
+    cartItemsList.innerHTML = '';  // Clear the current list
+    cartItems.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = item;
+        cartItemsList.appendChild(listItem);
+    });
+}
+
+// Function to handle Add to Cart button clicks
+document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const itemName = this.getAttribute('data-item');
+        cartItems.push(itemName);  // Add the item to the cart array
+        cartItemCount++;  // Increase the cart item count
+        updateCartCount(cartItemCount);  // Update the cart count display
+        updateCartPopup();  // Update the cart popup with new items
+    });
+});
+
+// Function to show the cart popup
+document.getElementById('popcart').addEventListener('click', function() {
+    const cartPopup = document.getElementById('cart-popup');
+    cartPopup.style.display = (cartPopup.style.display === 'block') ? 'none' : 'block';  // Toggle visibility
+});
+
+// Function to clear the cart (empty the cart items)
+document.getElementById('clear-cart-btn').addEventListener('click', function() {
+    cartItems = [];  // Clear the cart items array
+    cartItemCount = 0;  // Reset the cart item count
+    updateCartCount(cartItemCount);  // Update the cart count
+    updateCartPopup();  // Update the cart popup to reflect the empty cart
+});
+
 </script>
+
+<style>
+  .cart-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style for the cart count badge */
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  display: none;  /* Hidden by default */
+}
+
+/* Show the badge when there is a count */
+.cart-count.show {
+  display: inline-block;
+}
+
+/* Cart Popup Styles */
+.cart-popup {
+  display: none;  /* Hidden by default */
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 300px;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.cart-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-popup ul li {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+#clear-cart-btn {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-cart-btn:hover {
+  background-color: darkred;
+}
+</style>
+
+
+<!--  // Function to update the cart count
+function updateCartCount(count) {
+    var cartCountElement = document.getElementById('cart-count');
+    
+    // If count is greater than 0, show the badge with the count
+    if (count > 0) {
+        cartCountElement.textContent = count;  // Set the count number
+        cartCountElement.classList.add('show');  // Show the cart count badge
+    } else {
+        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
+    }
+}
+// Function to update the cart count
+function updateCartCount(count) {
+    var cartCountElement = document.getElementById('cart-count');
+    
+    if (count > 0) {
+        cartCountElement.textContent = count;  // Set the count number
+        cartCountElement.classList.add('show');  // Show the cart count badge
+    } else {
+        cartCountElement.classList.remove('show');  // Hide the badge if count is 0
+    }
+}
+// ---------------------------------------------------------------
+let cartItems = []; // Array to store cart items
+let cartItemCount = 0;
+
+// Function to update the cart count badge
+function updateCartCount(count) {
+  const cartCountElement = document.getElementById('cart-count');
+  if (count > 0) {
+    cartCountElement.textContent = count; // Show count number
+    cartCountElement.classList.add('show'); // Show the cart badge
+  } else {
+    cartCountElement.classList.remove('show'); // Hide the badge if no items
+  }
+}
+
+// Function to update cart pop-up with structured data
+function updateCartPopup() {
+  const cartItemsList = document.getElementById('cart-items-list');
+  cartItemsList.innerHTML = ''; // Clear current list
+
+  if (cartItems.length === 0) {
+    cartItemsList.innerHTML = '<li>No items in the cart</li>';
+    return;
+  }
+
+  // Add structured cart items to the list
+  cartItems.forEach((item, index) => {
+    const listItem = document.createElement('li');
+    listItem.className = 'cart-item';
+    listItem.innerHTML = `
+      <span>${item.name} - $${item.price} (x${item.quantity})</span>
+      <button class="remove-item" data-index="${index}">Remove</button>
+    `;
+    cartItemsList.appendChild(listItem);
+  });
+
+  // Add event listeners to "Remove" buttons
+  document.querySelectorAll('.remove-item').forEach(button => {
+    button.addEventListener('click', function() {
+      const itemIndex = this.getAttribute('data-index');
+      removeCartItem(itemIndex);
+    });
+  });
+}
+
+// Function to handle Add to Cart button clicks
+document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const itemName = this.getAttribute('data-name');
+    const itemPrice = parseFloat(this.getAttribute('data-price'));
+    const existingItem = cartItems.find(item => item.name === itemName);
+
+    if (existingItem) {
+      existingItem.quantity += 1; // Increment quantity if item already in cart
+    } else {
+      cartItems.push({ name: itemName, price: itemPrice, quantity: 1 });
+    }
+
+    cartItemCount++;
+    updateCartCount(cartItemCount);
+    updateCartPopup();
+  });
+});
+
+// Function to remove an item from the cart
+function removeCartItem(index) {
+  const item = cartItems[index];
+  cartItemCount -= item.quantity; // Decrement cart count by item quantity
+  cartItems.splice(index, 1); // Remove the item from the cart
+  updateCartCount(cartItemCount);
+  updateCartPopup();
+}
+
+// Toggle cart popup visibility
+document.getElementById('popcart').addEventListener('click', function() {
+  const cartPopup = document.getElementById('cart-popup');
+  cartPopup.style.display = (cartPopup.style.display === 'block') ? 'none' : 'block';
+});
+
+// Clear the cart
+document.getElementById('clear-cart-btn').addEventListener('click', function() {
+  cartItems = [];
+  cartItemCount = 0;
+  updateCartCount(cartItemCount);
+  updateCartPopup();
+});
+ -->

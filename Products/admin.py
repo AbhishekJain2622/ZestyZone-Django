@@ -5,3 +5,5 @@ admin.site.register(ContactUs)
 admin.site.register(Product)
 admin.site.register(Offer)
 admin.site.register(Orders)
+admin.site.register(OrderUpdate)
+

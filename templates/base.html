@@ -9,11 +9,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
   <!-- Site Metas -->
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
   <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="">
+  <!-- Vendor CSS Files -->
+  <link href="{% static '/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static '/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static '/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static '/assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static '/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static '/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  
   <style>
     .dropdown {
     position: relative;
@@ -67,117 +79,6 @@
     }
 /* Position the cart container to ensure the count can be positioned relative to it */
 /* ------------------------------------------------------------------------------------- */
-.cart-popup {
-  display: block; /* Ensure the popup is visible */
-  position: absolute;
-  top: 35px;
-  right: 0;
-  background: rgb(8, 7, 7);
-  border: 1px solid #000000;
-  padding: 15px;
-  width: 300px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px; /* Add rounded corners */
-}
-
-.cart-items-list {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  gap: 10px; /* Add spacing between items */
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between; /* Align name/price and button */
-  align-items: center; /* Center-align vertically */
-  background: #0e0b0b; /* Light background for items */
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.item-details {
-  flex-grow: 1;
-}
-
-.item-name {
-  font-weight: bold;
-}
-
-.item-price,
-.item-quantity {
-  margin-left: 10px;
-  color: #555;
-}
-
-.remove-item {
-  background-color: #d9534f;
-  color: rgb(32, 23, 23);
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-#clear-cart-btn {
-  margin-top: 10px;
-  background-color: red;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  width: 100%; /* Stretch the clear button */
-}
-
-.cart-summary {
-  margin-top: 15px;
-  font-weight: bold;
-  text-align: right;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-
-#cart-popup {
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-}
-
-#cart-popup[style*="block"] {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Additional Styling from Your Original Setup */
-.cart-container {
-  position: relative;
-}
-
-.cart_link {
-  position: relative;
-  text-decoration: none;
-}
-
-#cart-count {
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  background: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  display: none; /* Default: hide the badge */
-}
-#cart-count.show {
-  display: inline-block; /* Show only when there’s a count */
-}
-img#popcart {
-  height: 25px;
-  width: 25px;
-  cursor: pointer;
-}
 
 /* ------------------------------------------------------------------------------------- */
 
@@ -207,7 +108,6 @@ img#popcart {
 </head>
 <body>
    
-
         <!-- header section strats -->
         <header class="header_section" style="background: linear-gradient(to right, #803434, #B8860B); /* Red to Gold */
         color: white; /* Ensure text stands out */
@@ -258,78 +158,24 @@ img#popcart {
                           
                         </div>
                        -->
-                        
-                       <div class="cart-container" style="position: relative;">
-                        <a class="cart_link" href="#">
-                          <img src="{% static 'images/cart.png' %}" style="height: 25px; width: 25px;" alt="Cart" id="popcart">
-                          <span id="cart-count" class="cart-count" style="position: absolute; top: -5px; right: -10px; background: red; color: rgb(43, 35, 35); border-radius: 50%; padding: 2px 6px; font-size: 12px;"></span>
-                        </a>
-                        <!-- Cart Popup -->
-                        <div id="cart-popup" style="display: none; position: absolute; top: 35px; right: 0; background: rgb(7, 6, 6); border: 1px solid #201717; padding: 10px; width: 300px; z-index: 1000; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                          <div id="cart-items-list" class="cart-items-list"></div>
-                          <div id="cart-summary" class="cart-summary" style="margin-top: 10px; font-weight: bold;"></div>
-                          <button id="clear-cart-btn" style="margin-top: 10px; background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">Clear Cart</button>
-                        </div>
-                      </div>
-                      
+                       <!-- <button
+                       type="button"
+                       class="nav-link scrollto bg-danger p-3 m-2 text-white"
+                       id="popcart"
+                       data-container="body"
+                       data-bs-toggle="popover"
+                       data-bs-placement="bottom"
+                       data-bs-html="true"
+                     >
+                       <i class="fa-solid fa-cart-shopping"></i> Cart (<span id="cart">0</span>)
+                     </button> -->
 
-                
-                  <!-- <a class="cart_link" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" href="#"> -->
-             <!-- <a class="cart_link" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" href="#">
->>>>>>> 3fc27a6ec9bb57b9fd2c86e6ef680d3313a8d38e
-                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                      <g>
-                        <g>
-                          <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                       c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                       C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                       c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                       C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                        </g>
-                      </g>
-                      <g>
-                        <g>
-                          <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                       c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                        </g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                      <g>
-                      </g>
-                    </svg>
-                  </a>  -->
+
+                     <button type="button" class="nav-link scrollto bg-danger p-3 m-2 text-white" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" ><i class="fa-solid fa-cart-shopping"></i>  Cart (<span id="cart">0</span>)
+                     </button>
+           
+                      <!-- -------------------------------------------------------------- -->
+                       <!-- --------------------------------------------------------------- -->
                   <form class="form-inline" method="GET" action="{% url 'search' %}">
                     <input
                         name="q"
@@ -369,6 +215,7 @@ img#popcart {
             </nav>
           </div>
         </header>
+
         <!-- end header section -->
         <!-- slider section -->
          {% block sliderl %}
@@ -458,7 +305,10 @@ img#popcart {
    
 
     {% block content %}
+
     {% endblock content %}
+    {% block body %}
+     {% endblock body %} 
 
      <!-- footer section -->
   {% block footer %}
@@ -481,6 +331,10 @@ img#popcart {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
      
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
   <!-- jQery -->
   <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <!-- popper js -->
@@ -498,12 +352,24 @@ img#popcart {
   <!-- custom js -->
   <script src="{% static 'js/custom.js' %}"></script>
 
+
+   <!-- Vendor JS Files -->
+   <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static '/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+   <script src="{% static '/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+   <script src="{% static '/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+   <script src="{% static '/assets/vendor/php-email-form/validate.js' %}"></script>
+ 
+   <!-- Template Main JS File -->
+   <script src="{% static '/assets/js/main.js' %}"></script>
+ 
+
   <script>
    // Toggle dropdown menu
+// Toggle dropdown menu
 function toggleDropdown() {
     const dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.style.display =
-        dropdownMenu.style.display === "block" ? "none" : "block";
+    dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
 }
 
 // Close dropdown when clicking outside
@@ -523,124 +389,15 @@ function toggleSearch() {
         searchInput.focus();
     }
 }
-
-// --------------------------------------------------------------
-// Function to update the cart count badge
-function updateCartCount(count) {
-    const cartCountElement = document.getElementById('cart-count');
-    
-    if (count > 0) {
-        cartCountElement.textContent = count;  // Set the count number
-        cartCountElement.classList.add('show');  // Show the cart count badge
-    } else {
-        cartCountElement.textContent = '';  // Clear the badge text
-        cartCountElement.classList.remove('show');  // Hide the badge
-    }
-}
-
-// Function to update the cart popup with structured data
-function updateCartPopup() {
-    const cartItemsList = document.getElementById('cart-items-list');
-    const cartSummary = document.getElementById('cart-summary');
-    cartItemsList.innerHTML = ''; // Clear current list
-
-    if (cartItems.length === 0) {
-        cartItemsList.innerHTML = '<div>No items in the cart</div>';
-        cartSummary.innerHTML = ''; // Clear summary if no items
-        return;
-    }
-
-    let total = 0;
-
-    // Add structured cart items to the list
-    cartItems.forEach((item, index) => {
-        total += item.price * item.quantity; // Calculate total
-
-        const listItem = document.createElement('div');
-        listItem.className = 'cart-item';
-        listItem.innerHTML = `
-            <div class="item-details">
-                <span class="item-name">${item.name}</span>
-                <span class="item-price">$${item.price.toFixed(2)}</span>
-                <span class="item-quantity">x${item.quantity}</span>
-            </div>
-            <button class="remove-item" data-index="${index}" style="margin-left: 10px; background-color: #d9534f; color: white; border: none; padding: 5px;">Remove</button>
-        `;
-        cartItemsList.appendChild(listItem);
-    });
-
-    // Update cart summary
-    cartSummary.innerHTML = `
-        <div>Total Items: ${cartItemCount}</div>
-        <div>Total Price: $${total.toFixed(2)}</div>
-    `;
-
-    // Add event listeners to "Remove" buttons
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', function () {
-            const itemIndex = this.getAttribute('data-index');
-            removeCartItem(itemIndex);
-        });
-    });
-}
-
-// --------------------------------------------------------------
-// Handle Add to Cart button clicks
-let cartItems = []; // Array to store cart items
-let cartItemCount = 0;
-
-document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const itemName = this.getAttribute('data-name');
-        const itemPrice = parseFloat(this.getAttribute('data-price'));
-        const existingItem = cartItems.find(item => item.name === itemName);
-
-        if (existingItem) {
-            existingItem.quantity += 1; // Increment quantity if item already in cart
-        } else {
-            cartItems.push({ name: itemName, price: itemPrice, quantity: 1 });
-        }
-
-        cartItemCount++;
-        updateCartCount(cartItemCount);
-        updateCartPopup();
-    });
-});
-
-// Remove item from the cart
-function removeCartItem(index) {
-    const item = cartItems[index];
-    cartItemCount -= item.quantity; // Decrement cart count by item quantity
-    cartItems.splice(index, 1); // Remove the item from the cart
-    updateCartCount(cartItemCount);
-    updateCartPopup();
-}
-
-// --------------------------------------------------------------
-// Toggle cart popup visibility
-const cartPopup = document.getElementById('cart-popup');
-document.getElementById('popcart').addEventListener('click', function (event) {
-    event.stopPropagation(); // Prevent click event from propagating
-    cartPopup.style.display = cartPopup.style.display === 'block' ? 'none' : 'block';
-});
-
-// Close the cart popup when clicking outside of it
-document.addEventListener('click', function (event) {
-    if (!cartPopup.contains(event.target) && event.target.id !== 'popcart') {
-        cartPopup.style.display = 'none';
-    }
-});
-
-// Clear the cart
-document.getElementById('clear-cart-btn').addEventListener('click', function () {
-    cartItems = [];
-    cartItemCount = 0;
-    updateCartCount(cartItemCount);
-    updateCartPopup();
-});
+// ----------------------------------------
+// -----------------------------------------
+// ----------------------------------------
+// -----------------------------------------
+// // ----------------------------------------
+// -----------------------------------------
 
 
-  </script>
+</script>
 
 </body>
 </html>

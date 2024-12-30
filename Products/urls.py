@@ -8,7 +8,8 @@ urlpatterns = [
     path('menu/',views.menu,name='menu'),
     path('offer/',views.Ouroffer,name='offer'),
     path('search/',views.search_view,name='search'),
-    path('checkout/', views.checkout, name="Checkout"),
-   # path('handlerequest/', views.handlerequest, name="HandleRequest"),
+    path('checkout/', views.checkout, name='checkout'),
+    path('profile/', views.profile, name='profile'),
+    # path('add/',views.update_cart,name=""),
 
 ]

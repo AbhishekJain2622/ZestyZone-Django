@@ -8,10 +8,12 @@ from django.db.models import Q
 
 # Create your views here.
 def Home(request):
-    return render(request,'base.html')
-
+    return render(request,"base.html")
+   
 def About(request):
-    return render(request,'about.html')
+    obj=Offer.objects.all()
+    context={"objs":obj}
+    return render(request,'about.html',context)
 
 def search_view(request):
     query = request.GET.get('q')
@@ -26,7 +28,6 @@ def search_view(request):
 
 
 def menu(request):
-   
     allProds = []
     catprods = Product.objects.values('category','id')
     print(catprods)

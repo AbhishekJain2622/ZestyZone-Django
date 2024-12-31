@@ -8,14 +8,14 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def Home(request):
-    return render(request,"base.html")
-   
-def About(request):
     obj=Offer.objects.all()
     context={"objs":obj}
+    return render(request,'base.html',context)
+   
+def About(request):
+    obj=AboutMe.objects.all()
+    context={"objs":obj}
     return render(request,'about.html',context)
-
-  
 
 def search_view(request):
     query = request.GET.get('q', '').strip()  # Ensure whitespace is removed
@@ -26,7 +26,9 @@ def search_view(request):
         )
     return render(request, 'menu.html', {'query': query, 'results': results})
 
+
 def menu(request):
+    # Fetch products
     allProds = []
     category_filter = request.GET.get('category', 'all')  # Get category from query parameter
     query = request.GET.get('q', '')  # Get search query from query parameter
@@ -48,7 +50,16 @@ def menu(request):
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allProds.append([prod, range(1, nSlides), nSlides])
 
-    return render(request, "menu.html", {'allProds': allProds, 'category_filter': category_filter, 'query': query})
+    # Fetch offers
+    offers = Offer.objects.all()
+
+    # Render menu.html with products and offers
+    return render(request, "menu.html", {
+        'allProds': allProds,
+        'category_filter': category_filter,
+        'query': query,
+        'offers': offers,
+    })
 
 # def menu(request):
    
@@ -82,10 +93,10 @@ def Contact(request):
 
     return render(request, 'contact.html')
 
-def Ouroffer(request):
-    obj=Offer.objects.all()
-    context={"objs":obj}
-    return render(request,'menu.html',context)
+# def Ouroffer(request):
+#     obj=Offer.objects.all()
+#     context={"objs":obj}
+#     return render(request,'offer.html',context)
 
 def checkout(request):
     if not request.user.is_authenticated:

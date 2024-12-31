@@ -15,7 +15,6 @@ Home
     padding: 5px 10px;
   }
 </style>
-
 <section class="food_section layout_padding-bottom">
   <div class="container">
     <div class="heading_container heading_center">
@@ -24,14 +23,62 @@ Home
 
     <!-- Filter Menu -->
     <ul class="filters_menu">
-      <li class="active" data-filter="all">All</li>
-      <li data-filter="burger">Burger</li>
-      <li data-filter="pizza">Pizza</li>
-      <li data-filter="pasta">Pasta</li>
-      <li data-filter="fries">Fries</li>
+      <li class="{% if category_filter == 'all' %}active{% endif %}" data-filter="all">
+        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}">All</a>
+      </li>
+      <li class="{% if category_filter == 'burger' %}active{% endif %}" data-filter="burger">
+        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}">Burger</a>
+      </li>
+      <li class="{% if category_filter == 'pizza' %}active{% endif %}" data-filter="pizza">
+        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}">Pizza</a>
+      </li>
+      <li class="{% if category_filter == 'pasta' %}active{% endif %}" data-filter="pasta">
+        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}">Pasta</a>
+      </li>
+      <li class="{% if category_filter == 'fries' %}active{% endif %}" data-filter="fries">
+        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}">Fries</a>
+      </li>
     </ul>
 
+  
+
+    <!-- Products Display -->
     <div class="filters-content">
+      {% if query %}
+        <h4>Results for "{{ query }}"</h4>
+      {% endif %}
+      <div class="row grid">
+        {% for product, range, nSlides in allProds %}
+          {% for item in product %}
+            <div class="col-sm-6 col-lg-4 all" data-category="{{ item.category|lower }}">
+              <div class="box">
+                <div class="img-box">
+                  <img src="{% if item.image %}/media/{{ item.image }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" alt="{{ item.product_name }}" class="product-image">
+                </div>
+                <div class="detail-box">
+                  <h5>{{ item.product_name }}</h5>
+                  <p>{{ item.desc|slice:"0:53" }}...</p>
+                  <div class="options">
+                    <h6>${{ item.price }}</h6>
+                    <button class="add-to-cart-btn" data-id="{{ item.id }}" data-name="{{ item.product_name }}" data-price="{{ item.price }}">
+                      <span>Add to Cart</span>
+                      <img src="{% static 'images/cart.png' %}" style="width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+    <!-- <div class="filters-content">
       <div class="row grid">
         {% for product, range, nSlides in allProds %}
           {% for item in product %}
@@ -67,7 +114,7 @@ Home
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- Popover for Cart -->
 <button id="popcart" type="button" class="btn btn-warning" style="display:none;" data-toggle="popover" title="Cart Items" data-content="">

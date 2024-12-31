@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import *
 from math import ceil
 from django.db.models import Q
-
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -13,33 +13,56 @@ def Home(request):
 def About(request):
     return render(request,'about.html')
 
+  
+
 def search_view(request):
-    query = request.GET.get('q')
+    query = request.GET.get('q', '').strip()  # Ensure whitespace is removed
     results = []
     if query:
-        # Adjust filter conditions based on your model fields
         results = Product.objects.filter(
-            Q(product_name__icontains=query) | Q(category__icontains=query)  # Example
+            Q(product_name__icontains=query) | Q(category__icontains=query)
         )
-    return render(request, 'search.html', {'query': query, 'results': results})
-
-
+    return render(request, 'menu.html', {'query': query, 'results': results})
 
 def menu(request):
-   
     allProds = []
-    catprods = Product.objects.values('category','id')
-    print(catprods)
-    cats = {item['category'] for item in catprods}
+    category_filter = request.GET.get('category', 'all')  # Get category from query parameter
+    query = request.GET.get('q', '')  # Get search query from query parameter
+
+    if query:  # If there's a search query, filter products by name or description
+        catprods = Product.objects.filter(
+            Q(product_name__icontains=query) | Q(desc__icontains=query)
+        )
+    else:  # If there's no query, show all products (or by category)
+        if category_filter != 'all':
+            catprods = Product.objects.filter(category=category_filter)
+        else:
+            catprods = Product.objects.all()
+
+    cats = {item.category for item in catprods}  # Get distinct categories from the filtered products
     for cat in cats:
-        prod= Product.objects.filter(category=cat)
-        n=len(prod)
+        prod = catprods.filter(category=cat)
+        n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allProds.append([prod, range(1, nSlides), nSlides])
 
-    params= {'allProds':allProds}
+    return render(request, "menu.html", {'allProds': allProds, 'category_filter': category_filter, 'query': query})
 
-    return render(request,"menu.html",params)
+# def menu(request):
+   
+#     allProds = []
+#     catprods = Product.objects.values('category','id')
+#     print(catprods)
+#     cats = {item['category'] for item in catprods}
+#     for cat in cats:
+#         prod= Product.objects.filter(category=cat)
+#         n=len(prod)
+#         nSlides = n // 4 + ceil((n / 4) - (n // 4))
+#         allProds.append([prod, range(1, nSlides), nSlides])
+
+#     params= {'allProds':allProds}
+
+#     return render(request,"menu.html",params)
 
 
 def Contact(request):

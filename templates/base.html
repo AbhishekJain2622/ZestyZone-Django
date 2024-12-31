@@ -171,21 +171,21 @@
                      </button> -->
 
 
-                     <button type="button" class="nav-link scrollto bg-danger p-3 m-2 text-white" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" ><i class="fa-solid fa-cart-shopping"></i>  Cart (<span id="cart">0</span>)
+                     <button style="margin-right: 20px;" type="button" class="nav-link scrollto  text-white" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" ><i class="fa-solid fa-cart-shopping"></i> (<span id="cart">0</span>)
                      </button>
            
                       <!-- -------------------------------------------------------------- -->
                        <!-- --------------------------------------------------------------- -->
-                       <form method="GET" action="{% url 'menu' %}" class="form-inline mb-4">
+                       <form method="GET" action="{% url 'menu' %}"  class="form-inline">
                         <input 
                           name="q" 
                           type="text" 
                           class="form-control me-2" 
                           placeholder="Search for products..." 
                           value="{{ query|default:'' }}" 
-                          style="width: 300px; padding: 10px; border-radius: 20px;"
+                          style="width: 200px; padding: 10px; border-radius: 20px;"
                         />
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary"style="font-size: small; border-radius: 20px; margin-right: 10px;">Search</button>
                       </form>
                     
              

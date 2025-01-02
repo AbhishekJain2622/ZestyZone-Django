@@ -4,39 +4,94 @@
 
 
 {% block slider2 %}
-<div class="hero_area">
-  <div class="bg-box">
-    <img src=  "{% static 'images/55.jpg' %}"  alt="" style="filter: blur(5px); outline: 0px;" >
-  </div>
-   
-<section class="book_section">
+
+
+
+
+
+
+
+
+ <!-- <section class="book_section">
   <div class="form_container"style="margin-top:50px ;">
  
     <h2 style="text-align: center; color: #d4caca; margin-bottom:13px;">Login Your Account</h2>
     {% for message in messages %}
     <h5 style="font-family: italic; color:bisque"><strong>{{message}}</strong></h5>
     {% endfor %}
+
+    
     <form action="/auth/login/" style="margin: 0 auto; width: 400px;" method="post">
+
       {% csrf_token %}
-      <!-- <input type="text" class="form-control" placeholder="Your Name" style="margin-bottom: 7px;" /> -->
-      <!-- <input type="text" class="form-control" placeholder="Phone Number" style="margin-bottom: 7px;" /> -->
-      <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-envelope"></i> Email</span></h5>
+      
+     <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-envelope"></i> Email</span></h5>
+
+
       <input style="margin-bottom:13px;" type="email" name="email" id="email" class="form-control" placeholder="" style="margin-bottom: 7px;" />
+
+
       <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-key"></i> Password</span></h5>
+
+
       <input style="margin-bottom:13px;" type="password" name="pass1" id="pass1" class="form-control" placeholder="" style="margin-bottom: 7px;" />
+
+
       <button type="submit" style="margin-top: 10px; ">Login</button>
+
+
       <div style="color: beige; margin-top: 5px; "> <i class="fa fa-user" style="margin-right: 5px;"></i>New User  ? <a href="/auth/signup/" style="margin-left:8px; color: rgb(235, 180, 42);">Signup</a></div>
+
+
       <div style="color: beige; margin-top: 5px;">
+
+
         <a href="/auth/forgot-password/" style="color: beige;">Forgot Password</a>
     </div>
     </form>
-  </div>
-</section>
+  </div> 
+</section>  -->
 {% endblock slider2 %}
+
+
+{% block content %}
+
+<div class="container" style="background: rgba(255, 255, 255, 0.9); padding: 30px 40px; border-radius: 10px; box-shadow: 6px 10px 10px 8px  rgba(0, 0, 0, 0.1); max-width: 400px; width: 100%; text-align: center; margin: 50px auto; font-family: Arial, sans-serif;">
+  <h1 style="font-size: 24px; margin-bottom: 10px; color: #444; font-family: sans-serif;">Login Your Account</h1>
+  {% for message in messages %}
+  <h5 style="font-family: italic; color:rgb(231, 32, 32)"><strong>{{message}}</strong></h5>
+  {% endfor %}
+  <form method="POST" action="/auth/login/">
+      {% csrf_token %}
+      <div class="form-group" style="margin-bottom: 20px;">
+        <h5 style="color:black; font-family: sans-serif; font-size: medium;" ><span><i class="fa fa-envelope"></i> Email</span></h5>
+
+
+        <input style="margin-bottom:13px;" type="email" name="email" id="email" class="form-control" placeholder=" Enter Your Email" style="margin-bottom: 7px;" />
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <h5 style="color: black;  font-family: sans-serif; font-size: medium;"><span><i class="fa fa-key"></i> Password</span></h5>
+
+
+        <input style="margin-bottom:13px;" type="password" name="pass1" id="pass1" class="form-control" placeholder=" Enter Your Password" style="margin-bottom: 7px;" />
+     </div>
+
+     <button type="submit" style="margin-top: 10px; width: 60%; padding: 10px; font-size: 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">Login </button>
+
+    </form>
+ <div style="color:black; margin-top: 5px; "> <i class="fa fa-user" style="margin-right: 5px;"></i>New User  ? <a href="/auth/signup/" style="margin-left:8px; color: rgb(235, 180, 42);">Signup</a></div>
+
+  <div class="links" style="margin-top: 15px;">
+    <a href="/auth/forgot-password/" style="color: black;">Forgot Password</a>
+  </div>
 </div>
 
-{% block contant %}
-{% endblock %}
+
+
+
+
+{% endblock content %}
 {% block footer %}
 
 {% endblock footer %}

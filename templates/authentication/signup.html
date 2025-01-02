@@ -4,7 +4,7 @@
 {% block slider %}
 
   {% block slider2 %}
-  <div class="hero_area">
+  <!-- <div class="hero_area">
     <div class="bg-box">
       <img src=  "{% static 'images/91.jpg' %}"  alt="" style="filter: blur(3px);" >
     </div>
@@ -16,36 +16,89 @@
       {% for message in messages %}
       <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
       <strong>{{message}} </strong> 
-      </div>
+    </div>
       {% endfor %}
+
+
       <form action="/auth/signup/" style="margin: 0 auto; width: 400px;" method="post" >
         {% csrf_token %}
-        <!-- <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';" ><span><i class="fa fa-user"></i> Name</span></h5>
-        <input type="text" class="form-control" placeholder="" name="name" id="name" style="margin-bottom: 7px; block-size:35px" />            
-        <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-phone"></i> Phone</span></h5>
-
-        <input type="text" class="form-control" placeholder=""  name="num" id="num"  style="margin-bottom: 7px; block-size:35px"/> -->
+       
         <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-envelope"></i> Email</span></h5>
+
+
+
         <input type="email" class="form-control" placeholder=""  name="email" id="email"  style="margin-bottom: 7px; block-size:35px"/>
+
+
         <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-key"></i> Password</span></h5>
+
+
         <input type="password" class="form-control" placeholder=""  name="pass1" id="pass1"  style="margin-bottom: 7px; block-size:35px" />
+
+
         <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-lock"></i> Confirm Password</span></h5>
+
+
         <input type="password" class="form-control" placeholder="" name="pass2" id="pass2"  style="margin-bottom: 7px; block-size:35px" />
+
+
         <button type="submit" style="margin-top: 10px; ">Sign up</button>
+
+
         <div style="color: beige; margin-top: 5px; ">Already User ? <a href="/auth/login" style="margin-left:8px; color: rgb(235, 180, 42);">login</a></div>
       </form>
       
     </div>
-  </section>
+  </section> -->
   
 
   
   {% endblock slider2 %}
-  <!-- end slider section -->
-</div>
+  
 {% endblock slider %}
-{% block contant %}
-{% endblock %}
+{% block content %}
+
+
+<div class="container" style="background: rgba(255, 255, 255, 0.9); padding: 30px 40px; border-radius: 10px; box-shadow: 6px 10px 10px 8px  rgba(0, 0, 0, 0.1); max-width: 400px; width: 50%; text-align: center; margin: 50px auto; font-family: Arial, sans-serif;">
+  <h1 style="font-size: 24px; margin-bottom: 10px; color: #444; font-family: sans-serif;">SignUp Your Account</h1>
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    <strong>{{message}} </strong> 
+  </div>
+  {% endfor %}
+  <form method="POST" action="/auth/signup/">
+      {% csrf_token %}
+      <div class="form-group" style="margin-bottom: 20px;">
+        <h5 style="color:black; font-family: sans-serif; font-size: medium;" ><span><i class="fa fa-envelope"></i> Email</span></h5>
+
+
+        <input  type="email" name="email" id="email" class="form-control" placeholder=" Enter Your Email" style="margin-bottom: 7px;block-size:35px" />
+      </div>
+
+      
+      <h5 style="color: black; font-family:sans-serif; font-size: medium;"><span><i class="fa fa-key"></i> Password</span></h5>
+
+
+      <input type="password" class="form-control" placeholder=" Enter Your password"  name="pass1" id="pass1"  style="margin-bottom: 7px; block-size:35px" />
+
+
+      <h5 style="color: black;  font-family: sans-serif; font-size: medium; margin-bottom: 13px;"><span><i class="fa fa-lock"></i> Confirm Password</span></h5>
+
+
+      <input    type="password" class="form-control" placeholder="Confirm Password" name="pass2" id="pass2"  style="margin-bottom: 7px; block-size:35px" />
+ 
+
+     <button type="submit" style="margin-top: 10px; width: 60%; padding: 10px; font-size: 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">Login </button>
+
+    </form>
+ <div style="color:black; margin-top: 5px; ">Already User ? <a href="/auth/login" style="margin-left:8px; color: rgb(235, 180, 42);">login</a></div>
+
+  
+</div>
+
+
+
+{% endblock content %}
 {% block footer %}
 
 {% endblock footer %}

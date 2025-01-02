@@ -13,9 +13,9 @@ def Home(request):
     return render(request,'base.html',context)
    
 def About(request):
-    obj=AboutMe.objects.all()
-    context={"objs":obj}
-    return render(request,'about.html',context)
+     obj=AboutMe.objects.all()
+     context={"objs":obj}
+     return render(request,'about.html',context)
 
 def search_view(request):
     query = request.GET.get('q', '').strip()  # Ensure whitespace is removed

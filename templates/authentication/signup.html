@@ -20,12 +20,7 @@
       {% endfor %}
       <form action="/auth/signup/" style="margin: 0 auto; width: 400px;" method="post" >
         {% csrf_token %}
-        <!-- <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';" ><span><i class="fa fa-user"></i> Name</span></h5>
-        <input type="text" class="form-control" placeholder="" name="name" id="name" style="margin-bottom: 7px; block-size:35px" />            
-        <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-phone"></i> Phone</span></h5>
-
-        <input type="text" class="form-control" placeholder=""  name="num" id="num"  style="margin-bottom: 7px; block-size:35px"/> -->
-        <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-envelope"></i> Email</span></h5>
+      <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-envelope"></i> Email</span></h5>
         <input type="email" class="form-control" placeholder=""  name="email" id="email"  style="margin-bottom: 7px; block-size:35px"/>
         <h5 style="color: aliceblue; font-family: cursive; font-family: 'Dancing Script';"><span><i class="fa fa-key"></i> Password</span></h5>
         <input type="password" class="form-control" placeholder=""  name="pass1" id="pass1"  style="margin-bottom: 7px; block-size:35px" />

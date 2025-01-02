@@ -1,0 +1,164 @@
+
+.dropdown {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Adds a subtle blur effect */
+  }
+  
+  .dropdown-menu .dropdown-item {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: background 0.3s ease;
+  }
+  
+  .dropdown-menu .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Transparent hover effect */
+  }
+  .form-inline {
+      display: flex;
+      align-items: center;
+    }
+  
+    .nav_search-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .search-input {
+      display: none;
+      border: 1px solid #ccc;
+      padding: 5px;
+      margin-left: 5px;
+      border-radius: 4px;
+    }
+  
+    .search-input.active {
+      display: inline-block;
+    }
+  /* Position the cart container to ensure the count can be positioned relative to it */
+  /* ------------------------------------------------------------------------------------- */
+  /* General Product Card Styling */
+  .product-card {
+  width: 250px; /* Decrease width if necessary */
+  margin: 0 auto; /* Centers the card within its container */
+  /* width: 280px; */
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  }
+  
+  /* Hover Effect for Card */
+  .product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Product Image Styling */
+  .product-card .product-image {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  }
+  .owl-item {
+  display: flex;
+  justify-content: center; /* Centers the individual items inside the carousel */
+  }
+  .product-card .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+  
+  /* Product Info Section */
+  .product-info {
+  padding: 15px;
+  text-align: center;
+  }
+  
+  .product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  }
+  
+  .product-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  }
+  
+  /* Product Price */
+  .product-price {
+  font-size: 1rem;
+  color: #28a745;
+  font-weight: bold;
+  margin-bottom: 15px;
+  }
+  
+  /* Order Button */
+  .btn-order-now {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background: linear-gradient(to right, #803434, #B8860B);
+  transition: all 0.3s;
+  margin-top: auto; /* Push button to the bottom */
+  }
+  
+  .btn-order-now:hover {
+  background: linear-gradient(to right, #B8860B, #803434);
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .product-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  }
+  
+  .product-slider-section {
+  display: flex;
+  justify-content: center; /* Centers the carousel horizontally */
+  align-items: center; /* Centers the carousel vertically */
+  padding: 20px;
+  }
+  
+  @media (max-width: 600px) {
+  .product-slider .product-card {
+    width: 100%; /* Make cards full width on smaller screens */
+    margin: 0 auto; /* Centers the cards on mobile */
+  }
+  }

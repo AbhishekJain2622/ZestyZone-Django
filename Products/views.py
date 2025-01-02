@@ -1,22 +1,32 @@
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import *
 from math import ceil
 from django.db.models import Q
-from django.core.paginator import Paginator
-
+import json
+from .models import Orders, Product, ContactUs
 
 # Create your views here.
+# ----------------------------------------------------------------------------
+                                                   #HOME
+# ----------------------------------------------------------------------------
+
 def Home(request):
-    obj=Offer.objects.all()
-    context={"objs":obj}
-    return render(request,'base.html',context)
+    products = Product.objects.all()  # Fetch all products
+    return render(request, 'base.html', {'products': products})
    
+
+# ---------------------------------------------------------------------------
+                                                 # ABOUT
+# ---------------------------------------------------------------------------
 def About(request):
     obj=AboutMe.objects.all()
     context={"objs":obj}
     return render(request,'about.html',context)
 
+# -------------------------------------------------------------------------------
+                                                # SEARCH 
+# -----------------------------------------------------------------------------
 def search_view(request):
     query = request.GET.get('q', '').strip()  # Ensure whitespace is removed
     results = []
@@ -26,6 +36,9 @@ def search_view(request):
         )
     return render(request, 'menu.html', {'query': query, 'results': results})
 
+# ---------------------------------------------------------------------------------------
+                                                # MENU
+# ---------------------------------------------------------------------------------------
 
 def menu(request):
     # Fetch products
@@ -60,23 +73,9 @@ def menu(request):
         'query': query,
         'offers': offers,
     })
-
-# def menu(request):
-   
-#     allProds = []
-#     catprods = Product.objects.values('category','id')
-#     print(catprods)
-#     cats = {item['category'] for item in catprods}
-#     for cat in cats:
-#         prod= Product.objects.filter(category=cat)
-#         n=len(prod)
-#         nSlides = n // 4 + ceil((n / 4) - (n // 4))
-#         allProds.append([prod, range(1, nSlides), nSlides])
-
-#     params= {'allProds':allProds}
-
-#     return render(request,"menu.html",params)
-
+# ---------------------------------------------------------------------------------------
+                                             # CONTACT
+# ---------------------------------------------------------------------------------------
 
 def Contact(request):
     if request.method == "POST":
@@ -93,10 +92,9 @@ def Contact(request):
 
     return render(request, 'contact.html')
 
-# def Ouroffer(request):
-#     obj=Offer.objects.all()
-#     context={"objs":obj}
-#     return render(request,'offer.html',context)
+# ---------------------------------------------------------------------------------------
+                                                 # CHECKOUT
+# ---------------------------------------------------------------------------------------
 
 def checkout(request):
     if not request.user.is_authenticated:
@@ -137,24 +135,79 @@ def checkout(request):
 
     return render(request, 'checkout.html')
 
+# ---------------------------------------------------------------------------------------
+                                                # PROFILE
+# ---------------------------------------------------------------------------------------
 def profile(request):
     if not request.user.is_authenticated:
         messages.warning(request, "Login & Try Again")
         return redirect('/auth/login')
 
     currentuser = request.user.username
-    items = Orders.objects.filter(email=currentuser)
+    orders = Orders.objects.filter(email=currentuser)
 
-    rid = ""
-    for i in items:
-        print(i.oid)
-        myid = i.oid
-        rid = myid.replace("ZestyZone", "")
-        print(rid)
+    orders_with_details = []
+    for order in orders:
+        status_updates = OrderUpdate.objects.filter(order_id=order.order_id)
 
-    status = OrderUpdate.objects.filter(order_id=int(rid))
-    for j in status:
-        print(j.update_desc)
+        # Parse the items_json into structured data
+        try:
+            items = json.loads(order.items_json)  # Assuming items_json is a JSON string
+            structured_items = []
+            for item_id, (quantity, name, price) in items.items():
+                structured_items.append({
+                    'name': name,
+                    'quantity': quantity,
+                    'price': price
+                })
+        except json.JSONDecodeError:
+            structured_items = []
 
-    context = {"items": items, "status": status}
+        orders_with_details.append({
+            'order': order,
+            'status_updates': status_updates,
+            'items': structured_items
+        })
+
+    context = {"orders_with_details": orders_with_details}
     return render(request, "profile.html", context)
+
+# ---------------------------------------------------------------------------------------
+                                            # CUSTOM ADMIN
+# ---------------------------------------------------------------------------------------
+
+# @staff_member_required
+# def admin_view(request):
+
+#     users_count = User.objects.count()
+#     orders_count = Orders.objects.count()
+#     products_count = Product.objects.count()
+#     contacts_count = ContactUs.objects.count()
+
+#     context = {
+#         'users_count': users_count,
+#         'orders_count': orders_count,
+#         'products_count': products_count,
+#         'contacts_count': contacts_count,
+#     }
+#     return render(request, 'admin.html', context)
+
+
+# @staff_member_required
+# def admin_orders(request):
+#     orders = Orders.objects.all()
+#     return render(request, 'admin_orders.html', {'orders': orders})
+
+
+# @staff_member_required
+# def admin_products(request):
+#     products = Product.objects.all()
+#     return render(request, 'admin_products.html', {'products': products})
+
+
+# @staff_member_required
+# def admin_users(request):
+#     users = User.objects.all()
+#     return render(request, 'admin_users.html', {'users': users})
+
+# ---------------------------------------------------------------------------------

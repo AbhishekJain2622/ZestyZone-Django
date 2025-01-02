@@ -6,36 +6,7 @@
 {% endblock slider2 %}
 
 {% block content %}  
-<!-- Offers Section -->
-<section class="offer_section layout_padding-bottom" style="background: linear-gradient(to right, #a34526, #f4d49d); color: white;" >
-  <div class="offer_container">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Our Offers</h2>
-      </div>
-      <div class="row">
-        {% for offer in offers %}
-        <div class="col-md-6">
-          <div class="box">
-            <div class="img-box">
-              <img src="{{ offer.img.url }}" alt="image not found">
-            </div>
-            <div class="detail-box">
-              <h5>{{ offer.Offer_name }}</h5>
-              <h6>
-                <span>{{ offer.Offer }}</span> Off
-              </h6>
-              <a href="#">
-                Order Now
-              </a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
+
 {% endblock content %}
 
 {% block body %}
@@ -106,47 +77,6 @@
     </div>
   </div>
 </section>
-
-
-
-
-    <!-- <div class="filters-content">
-      <div class="row grid">
-        {% for product, range, nSlides in allProds %}
-          {% for item in product %}
-            <div class="col-sm-6 col-lg-4 all" data-category="{{ item.category|lower }}">
-              <div class="box">
-                <div class="img-box">
-                  <img 
-                    src="{% if item.image %}/media/{{ item.image }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" 
-                    alt="{{ item.product_name }}" 
-                    class="product-image"
-                  >
-                </div>
-                <div class="detail-box">
-                  <h5>{{ item.product_name }}</h5>
-                  <p>{{ item.desc|slice:"0:53" }}...</p>
-                  <div class="options">
-                    <h6>${{ item.price }}</h6>
-                    <button
-                      class="add-to-cart-btn" 
-                      data-id="{{ item.id }}" 
-                      data-name="{{ item.product_name }}" 
-                      data-price="{{ item.price }}"
-                      style="background: linear-gradient(to right, #803434, #B8860B); display: flex; align-items: center; justify-content: center; width: 150px; padding: 10px; border: none; color: white; font-weight: bold; font-size: 14px; border-radius:20px;">
-                      <span style="margin-right: 8px;">Add to Cart</span>
-                      <img src="{% static 'images/cart.png' %}" style="width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart" id="popcart" data-toggle="popover" data-placement="bottom">
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section> -->
 
 <!-- Popover for Cart -->
 <button id="popcart" type="button" class="btn btn-warning" style="display:none;" data-toggle="popover" title="Cart Items" data-content="">

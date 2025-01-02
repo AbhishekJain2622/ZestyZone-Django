@@ -1,18 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- <div class="container">
-    <form method="GET" action="{% url 'search' %}" class="form-inline mb-4">
-        <input
-            name="q"
-            type="text"
-            class="form-control me-2"
-            placeholder="Search for products..."
-            value="{{ query|default:'' }}"
-        />
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form> -->
-
     {% if query %}
         <h4>Results for "{{ query }}"</h4>
         <hr>

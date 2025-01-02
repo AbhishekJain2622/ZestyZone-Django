@@ -81,7 +81,7 @@
                         />
                         <button type="submit" class="btn btn-primary"style="font-size: small; border-radius: 20px; margin-right: 10px;">Search</button>
                       </form>
-                   <div class="dropdown" >
+                   <div class="dropdown"  style="margin-right: 25px;">
                     <a href="javascript:void(0)" class="user_link" id="userDropdown" onclick="toggleDropdown()">
                       <i class="fa fa-angle-down" style=" font-size: xx-large;" style="height: 25px; width: 25px;"  aria-hidden="true"></i>
                     </a>
@@ -213,6 +213,17 @@ $(".product-slider").owlCarousel({
     1000: { items: 3 }
   }
 });
+// --------------------------------------------------------------
+function toggleDropdown() {
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+}
+
+function toggleSearchInput() {
+    const searchInput = document.querySelector(".search-input");
+    searchInput.classList.toggle("active");
+}
+
 
 
 </script>

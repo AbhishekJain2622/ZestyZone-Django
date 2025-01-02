@@ -20,26 +20,26 @@
 </style>
 <section class="food_section layout_padding-bottom" style="background: linear-gradient(to right, #a34526, #f4d49d); color: white;" >
   <div class="container">
-    <div class="heading_container heading_center">
-      <h2>Our Menu</h2>
+    <div class="heading_container heading_center" >
+      <h2 style=" margin-top: 20px;font-family: Gill Sans Extrabold sans-serif; color:rgb(59, 57, 57);"><i class="fa-solid fa-hand-point-right" style="font-size:x-large; margin-right: 10px;color: white;"></i>Our Menu<i class="fa-solid fa-hand-point-left" style="font-size: x-large;margin-left: 10px; color:white;"></i></h2>
     </div>
 
     <!-- Filter Menu -->
     <ul class="filters_menu">
-      <li class="{% if category_filter == 'all' %}active{% endif %}" data-filter="all">
-        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}">All</a>
+      <li class="{% if category_filter == 'all' %}active{% endif %}" data-filter="all" >
+        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}" style="color: white; font-weight: bold;">All</a>
       </li>
       <li class="{% if category_filter == 'burger' %}active{% endif %}" data-filter="burger">
-        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}">Burger</a>
+        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Burger</a>
       </li>
       <li class="{% if category_filter == 'pizza' %}active{% endif %}" data-filter="pizza">
-        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}">Pizza</a>
+        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pizza</a>
       </li>
       <li class="{% if category_filter == 'pasta' %}active{% endif %}" data-filter="pasta">
-        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}">Pasta</a>
+        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pasta</a>
       </li>
       <li class="{% if category_filter == 'fries' %}active{% endif %}" data-filter="fries">
-        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}">Fries</a>
+        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}" style="color: white;font-weight: bold;">Fries</a>
       </li>
     </ul>
 
@@ -63,7 +63,7 @@
                   <p>{{ item.desc|slice:"0:53" }}...</p>
                   <div class="options">
                     <h6>${{ item.price }}</h6>
-                    <button class="add-to-cart-btn" data-id="{{ item.id }}" data-name="{{ item.product_name }}" data-price="{{ item.price }}">
+                    <button style="background:linear-gradient(to right, #a34526, #B8860B);" class="add-to-cart-btn" data-id="{{ item.id }}" data-name="{{ item.product_name }}" data-price="{{ item.price }}">
                       <span>Add to Cart</span>
                       <img src="{% static 'images/cart.png' %}" style="width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart">
                     </button>

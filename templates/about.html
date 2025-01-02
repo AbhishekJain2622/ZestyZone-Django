@@ -1,4 +1,4 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
 {% block title %}About{% endblock %}
 {% load static %}
 
@@ -6,39 +6,72 @@
 {% endblock slider2 %}
 
 {% block content %}
+<!-- Include Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+<style>
+    .about-page-container {
+        display: flex;
+        align-items: flex-start;
+        margin: 20px;
+        gap: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
+    .about-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .about-content {
+        flex: 2;
+        color: #333;
+    }
+    .about-content h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+    .about-content p {
+        font-size: 1rem;
+        line-height: 1.8;
+        margin-bottom: 15px;
+    }
+    .about-content ul {
+        margin-left: 20px;
+        margin-top: 15px;
+    }
+    .about-content ul li {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    .about-content strong {
+        color: #2c3e50;
+    }
+</style>
 
-<!-- start about section -->
-<section class="about_section layout_padding">
-  <div class="container">
-    <div class="row">
-      {% for obj in objs %}
-      <div class="col-lg-5 col-md-6">
-        
-        <div class="detail-box">
-          <h2>
-            {{obj.name}}
-          </h2>
-          <p>
-            {{obj.objective}}
-          </p>
-          <a href="">
-            Read More
-          </a>
-        </div>
-      </div>
-      <div class="col-lg-7 col-md-6">
-        <div class="img-box">
-          <img src="{{obj.img2.url}}" alt="">
-        </div>
-      </div>
-      {% endfor %}
+<div class="about-page-container">
+    <!-- Side Image -->
+    <div class="about-image" style="flex: 1;">
+        <img src="{% static 'images/home3.jpg' %}" alt="About Us Image">
     </div>
-  </div>
-</section>
 
-<!-- end about section -->
+    <!-- About Content -->
+    <div class="about-content">
+        <h1 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">About Us</h1>
+        <p>Welcome to <strong>Zest Zone</strong>, your ultimate partner in revolutionizing the restaurant industry!</p>
+        <p>At Zest Zone, we believe that dining is more than just a meal—it’s an experience. That’s why we’ve crafted a cutting-edge platform designed specifically for restaurants to connect with their customers, streamline operations, and enhance their digital presence.</p>
+        <p>Whether you’re a cozy café or a bustling fine-dining establishment, Zest Zone provides you with the tools to showcase your menu, manage reservations, and offer seamless online ordering—all in one place.</p>
+        <p>Our mission is simple: to empower restaurateurs with innovative solutions that save time, boost efficiency, and deliver unforgettable dining experiences.</p>
+        <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">With Zest Zone, you’ll enjoy:</h2>
+        <ul>
+            <li><strong>Customizable Websites</strong>: Beautiful, user-friendly designs that reflect your brand.</li>
+            <li><strong>Integrated Features</strong>: From online reservations to order management, we’ve got you covered.</li>
+            <li><strong>Enhanced Customer Engagement</strong>: Stay connected through reviews, feedback, and special promotions.</li>
+            <li><strong>Dedicated Support</strong>: Our team is always here to ensure your success.</li>
+        </ul>
+        <p>Join us in shaping the future of the restaurant industry. Together, let’s create moments that matter.</p>
+        <p><strong>Your passion for food deserves the best platform—welcome to Zest Zone!</strong></p>
+    </div>
+</div>
 {% endblock content %}
-
-
-

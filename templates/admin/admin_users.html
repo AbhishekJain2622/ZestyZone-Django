@@ -1,0 +1,29 @@
+{%extends 'base.html' %}
+{% block title %}contact{% endblock %}
+{% load static %}
+{% block sliderl %}
+{% endblock sliderl %}
+
+{% block content %}
+<h2>Users</h2>
+<table>
+    <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Date Joined</th>
+        <th>Action</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.date_joined }}</td>
+        <td>
+            <a href="#">Edit</a> | <a href="#">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

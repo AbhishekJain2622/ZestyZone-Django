@@ -10,11 +10,18 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib import messages
 
 # Helper function to send email
+# ---------------------------------------------------------------------------------------
+                                                # SEND EMAIL
+# ---------------------------------------------------------------------------------------
+
+
 def send_email(subject, message, recipient_list):
     from_email = 'your-email@gmail.com'  # Replace with your email
     send_mail(subject, message, from_email, recipient_list)
+# ---------------------------------------------------------------------------------------
+                                                #  Password validation
+# ---------------------------------------------------------------------------------------
 
-# Password validation
 def is_valid_password(password):
     if len(password) < 8:
         return "Password must be at least 8 characters long."
@@ -24,7 +31,11 @@ def is_valid_password(password):
         return "Password must include at least one number."
     return None
 
-# Signup functionality
+
+# ---------------------------------------------------------------------------------------
+                                               # Signup functionality
+# ---------------------------------------------------------------------------------------
+
 def Signup(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -64,7 +75,11 @@ def Signup(request):
 
     return render(request, 'authentication/signup.html')
 
-# Email verification
+# ---------------------------------------------------------------------------------------
+                                               # Email verification
+# ---------------------------------------------------------------------------------------
+
+
 def verify_email(request, uidb64, token):
     try:
         user_id = force_str(urlsafe_base64_decode(uidb64))
@@ -80,7 +95,11 @@ def verify_email(request, uidb64, token):
         messages.error(request, "Invalid verification link.")
     return redirect('/auth/signup/')
 
-# Login functionality
+
+# ---------------------------------------------------------------------------------------
+                                              # Login functionality
+# ---------------------------------------------------------------------------------------
+
 def Login(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -95,11 +114,20 @@ def Login(request):
             messages.error(request, "Invalid Credentials")
     return render(request, 'authentication/login.html')
 
+# ---------------------------------------------------------------------------------------
+                                             # Logout functionality
+# ---------------------------------------------------------------------------------------
+
 # Logout functionality
 def Logout(request):
     logout(request)
     messages.success(request, 'Logout successful')
     return redirect('/auth/login/')
+
+
+# ---------------------------------------------------------------------------------------
+                                             # forgot_password functionality
+# ---------------------------------------------------------------------------------------
 def forgot_password(request):
     if request.method == "POST":
         email = request.POST.get('email')
@@ -127,6 +155,9 @@ def forgot_password(request):
 
     return render(request, 'authentication/forgot_password.html')
 
+# ---------------------------------------------------------------------------------------
+                                            # Reset password functionality
+# ---------------------------------------------------------------------------------------
 # Reset password functionality
 def reset_password(request, uidb64, token):
     if request.method == "POST":

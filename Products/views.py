@@ -20,9 +20,9 @@ def Home(request):
                                                  # ABOUT
 # ---------------------------------------------------------------------------
 def About(request):
-    obj=AboutMe.objects.all()
-    context={"objs":obj}
-    return render(request,'about.html',context)
+     obj=AboutMe.objects.all()
+     context={"objs":obj}
+     return render(request,'about.html',context)
 
 # -------------------------------------------------------------------------------
                                                 # SEARCH 

@@ -51,6 +51,8 @@ class Orders(models.Model):
     amountpaid=models.CharField(max_length=500,blank=True,null=True)
     paymentstatus=models.CharField(max_length=20,blank=True)
     phone = models.CharField(max_length=100,default="")
+    razorpay_order_id = models.CharField(max_length=255, blank=True, null=True)
+    payment_status = models.CharField(max_length=50, default='Pending')
     def __str__(self):
         return self.name
     

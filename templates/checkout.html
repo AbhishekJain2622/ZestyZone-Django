@@ -1,275 +1,209 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block slider2%}
-{% endblock slider2%}
+{% block slider2 %}{% endblock slider2 %}
 
 {% block content %}
-
 
 <head>
     <style>
         /* Section Styling */
-#portfolio {
-  background-color:white;
-  background-image: ;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.section-title h2 {
-  font-size: 36px;
-  color: #2C3E50;
-}
-
-.section-title h3 {
-  font-size: 24px;
-  color: #95A5A6;
-  margin-bottom: 30px;
-}
-
-/* Card Styling */
-.list-group {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Breadcrumb Styling */
-.breadcrumb-container {
-  background-color: #f1f1f1;
-  padding: 15px;
-  border-radius: 5px;
-}
-
-.breadcrumb-item.active {
-  font-weight: bold;
-  color: #27AE60;
-}
-
-/* Form Styling */
-.form-row .form-group {
-  margin-bottom: 15px;
-}
-
-.form-control {
-  border-radius: 5px;
-  border: 1px solid #BDC3C7;
-}
-
-input[type="text"], input[type="email"], input[type="number"] {
-  padding: 12px;
-}
-
-button.btn-success {
-  background-color: #27AE60;
-  border-color: #27AE60;
-  font-size: 18px;
-  padding: 12px 20px;
-}
-
-button.btn-success:hover {
-  background-color: #2ECC71;
-  border-color: #2ECC71;
-}
-
-/* Responsive Design */
-@media (max-width: 767px) {
-  .container {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-
-  .form-row .form-group {
-    margin-bottom: 10px;
-  }
-
-  .btn-success {
-    width: 100%;
-  }
-}
-
+        #portfolio {
+            background-color: white;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            color: #2C3E50;
+        }
+        .section-title h3 {
+            font-size: 24px;
+            color: #95A5A6;
+            margin-bottom: 30px;
+        }
+        .list-group {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .breadcrumb-container {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .breadcrumb-item.active {
+            font-weight: bold;
+            color: #27AE60;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #BDC3C7;
+        }
+        .btn-success {
+            background-color: #27AE60;
+            border-color: #27AE60;
+            font-size: 18px;
+            padding: 12px 20px;
+        }
+        .btn-success:hover {
+            background-color: #2ECC71;
+            border-color: #2ECC71;
+        }
     </style>
 </head>
 
+<section id="portfolio" class="portfolio">
+    <div class="container py-5">
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
 
+        <div class="section-title text-center mb-5">
+            <h2 class="text-primary">Checkout</h2>
+            <h3 class="text-muted">Review Your Cart & Enter Your Details</h3>
+        </div>
 
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="mb-4">Step 1: Review Your Cart</h4>
+                <ul class="list-group" id="items">
+                    <!-- Dynamic Cart Items -->
+                </ul>
 
-<!-- ======= Portfolio Section ======= -->
-
-
-         <section id="portfolio" class="portfolio">
-            <div class="container py-5">
-              {% for message in messages %}
-                <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-                  <strong>{{message}}</strong>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              {% endfor %}
-        
-              <div class="section-title text-center mb-5">
-                <h2 class="text-primary">Checkout</h2>
-                <h3 class="text-muted">Review Your Cart & Enter Your Details</h3>
-              </div>
-        
-              <!-- Step 1: Review Cart -->
-              <div class="row">
-                <div class="col-lg-6">
-                  <h4 class="mb-4">Step 1: Review Your Cart</h4>
-                  <ul class="list-group" id="items">
-                    <!-- Dynamic Cart Items will appear here -->
-                  </ul>
-        
-                  <div class="breadcrumb-container mt-4">
+                <div class="breadcrumb-container mt-4">
                     <nav aria-label="breadcrumb">
-                      <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Your Cart Total: <strong>Rs. <span id="totalprice"></span></strong> <span id="amount"></span></li>
-                      </ol>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">Your Cart Total: <strong>Rs. <span id="totalprice"></span></strong> <span id="amount"></span></li>
+                        </ol>
                     </nav>
-                  </div>
                 </div>
-        
-                <!-- Step 2: Enter Address & Other Details -->
-                <div class="col-lg-6">
-                  <h4 class="mb-4">Step 2: Enter Your Details</h4>
-                  <form method="post" action="/checkout/">
+            </div>
+
+            <div class="col-lg-6">
+                <h4 class="mb-4">Step 2: Enter Your Details</h4>
+                <form method="post" action="/checkout/">
                     {% csrf_token %}
                     <input type="hidden" name="itemsJson" id="itemsJson">
                     <input type="hidden" id="amt" name="amt">
-        
+
                     <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputname">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="{{user.email}}" required>
-                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputname">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="{{user.email}}" required>
+                        </div>
                     </div>
-        
+
                     <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputAddress">Address Line 1</label>
-                        <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputAddress2">Address Line 2</label>
-                        <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, suite, etc." required>
-                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputAddress">Address Line 1</label>
+                            <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputAddress2">Address Line 2</label>
+                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, suite, etc." required>
+                        </div>
                     </div>
-        
+
                     <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputCity">City</label>
-                        <input type="text" class="form-control" id="city" name="city" required>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputState">State</label>
-                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" required>
-                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" id="city" name="city" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">State</label>
+                            <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" required>
+                        </div>
                     </div>
-        
+
                     <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputZip">Pin Code</label>
-                        <input type="number" class="form-control" id="zip_code" name="zip_code" required>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPhone">Phone Number</label>
-                        <input type="number" class="form-control" id="phone" name="phone" required>
-                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputZip">Pin Code</label>
+                            <input type="number" class="form-control" id="zip_code" name="zip_code" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPhone">Phone Number</label>
+                            <input type="number" class="form-control" id="phone" name="phone" required>
+                        </div>
                     </div>
-        
+
                     <div class="form-group text-center mt-4">
-                      <button type="submit" class="btn btn-success btn-lg col-md-6">Place Order</button>
+                      <button type="button" id="rzp-button" class="btn btn-success btn-lg col-md-6">Proceed to Payment</button>
                     </div>
-                  </form>
-                </div>
-              </div>
+                </form>
             </div>
-        </section>
-        
-<script src="https://code.jquery.com/jquery-3.3.1.js"integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  
-  <script>
-  if (localStorage.getItem('cart') === null) {
-      var cart = {};
-  } else {
-      var cart = JSON.parse(localStorage.getItem('cart'));
-  }
-  console.log(cart);
-  
-  var sum = 0;
-  var totalPrice = 0;
-  
-  if ($.isEmptyObject(cart)) {
-      let mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`;
-      $('#items').append(mystr);
-  } else {
-      for (let item in cart) {
-          let name = cart[item][1];
-          let qty = cart[item][0];
-          let itemPrice = cart[item][2];
-          sum += qty;
-          totalPrice += qty * itemPrice;
-  
-          let mystr = `
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                      <b>${name}</b>
-                      <div>Price: ${itemPrice}</div>
-                  </div>
-                  <span class="badge badge-primary badge-pill">${qty}</span>
-                  <input type="number" class="form-control form-control-sm ml-2 edit-quantity" data-item="${item}" value="${qty}" style="width: 60px;">
-                  <button class="btn btn-danger btn-sm ml-2 delete-item" data-item="${item}">Delete</button>
-              </li>`;
-          $('#items').append(mystr);
-      }
-      document.getElementById('totalprice').innerHTML = totalPrice;
-  }
-  
-  // Handle item deletion
-  $(document).on('click', '.delete-item', function () {
-      let item = $(this).data('item'); // Get the item key
-      delete cart[item]; // Remove the item from the cart object
-      localStorage.setItem('cart', JSON.stringify(cart)); // Update the localStorage
-      location.reload(); // Refresh the page to update the cart
-  });
-  
-  // Handle quantity editing
-  $(document).on('input', '.edit-quantity', function () {
-      let item = $(this).data('item'); // Get the item key
-      let newQty = $(this).val(); // Get the new quantity
-      if (!isNaN(newQty) && newQty > 0) {
-          cart[item][0] = parseInt(newQty); // Update the quantity
-          localStorage.setItem('cart', JSON.stringify(cart)); // Update the localStorage
-          let newTotal = 0;
-          for (let key in cart) {
-              newTotal += cart[key][0] * cart[key][2];
-          }
-          document.getElementById('totalprice').innerHTML = newTotal;
-      } else {
-          alert("Invalid quantity entered.");
-      }
-  });
-  
-  $('#itemsJson').val(JSON.stringify(cart));
-  
-  // If "thank" context is true
-  {% if thank %}
-  alert('Thanks for ordering with us. Your order is {{id}}. Use it to track your order using our order tracker.');
-  localStorage.clear();
-  document.location = "/";
-  {% endif %}
-  
-  // Setting the amount to the hidden input
-  document.getElementById("amt").value = totalPrice;
-  
-  </script>
-  
-  
-{% endblock %}
+        </div>
+    </div>
+</section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let totalPrice = 0;
+
+    // Populate cart items
+    if (Object.keys(cart).length === 0) {
+        $('#items').html('<p>Your cart is empty, please add some items to your cart before checking out!</p>');
+        $('#rzp-button').prop('disabled', true); // Disable payment button if cart is empty
+    } else {
+        for (let item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let itemPrice = cart[item][2];
+            totalPrice += qty * itemPrice;
+
+            let itemHtml = `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div><b>${name}</b><div>Price: ${itemPrice}</div></div>
+                <span class="badge badge-primary badge-pill">${qty}</span>
+            </li>`;
+            $('#items').append(itemHtml);
+        }
+        $('#totalprice').text(totalPrice);
+        $('#amt').val(totalPrice);
+    }
+
+    // Razorpay Integration - Open payment dialog when button is clicked
+    $('#rzp-button').click(function (e) {
+        e.preventDefault();  // Prevent form submission
+        console.log("Proceeding to payment...");  // Debugging line
+
+        var options = {
+            "key": "{{ razorpay_key_id }}",  // Razorpay key ID passed from Django view
+            "amount": totalPrice * 100,  // Amount in paisa
+            "currency": "INR",
+            "name": "Your Shop",
+            "description": "Test Transaction",
+            "order_id": "{{ order_id }}",  // Razorpay order ID passed from Django view
+            "handler": function (response) {
+                console.log("Payment successful: ", response);  // Debugging line
+                alert("Payment successful: " + response.razorpay_payment_id);
+                window.location.href = "/payment/success/";  // Redirect to success page
+            },
+            "prefill": {
+                "name": $('#name').val(),
+                "email": $('#email').val(),
+                "contact": $('#phone').val()
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        console.log("Creating Razorpay instance...");  // Debugging line
+        var rzp = new Razorpay(options);
+        rzp.open();  // Open the Razorpay payment dialog
+    });
+});
+</script>
+
+
+{% endblock content %}

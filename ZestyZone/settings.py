@@ -163,3 +163,10 @@ EMAIL_HOST_PASSWORD = "prlp itqf bidl aqhe"
 #         },
 #     },
 # }
+
+from decouple import config
+
+RAZORPAY_KEY_ID = config("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
+# RAZORPAY_KEY_ID = "rzp_test_SSKvxKw6IPj9CH"
+# RAZORPAY_KEY_SECRET = "ihHWAqWMCRPL4jat8a4BiAlZ"

@@ -9,8 +9,10 @@ urlpatterns = [
     path('search/', views.search_view, name='search'),
     path('checkout/', views.checkout, name='checkout'),
     path('profile/', views.profile, name='profile'),
+     path('payment/callback/', views.payment_callback, name='payment_callback'),
+    path('payment/success/', views.payment_success, name='payment_success'),
     # path('admin2/', views.admin_view, name='admin_dashboard'),
     # path('admin2/orders/', views.admin_orders, name='admin_orders'),
     # path('admin2/products/', views.admin_products, name='admin_products'),
-    # path('admin2/users/', views.admin_users, name='admin_users'),
+    # path('admin2/users/', views.admin_users, name='admin_users'),payment_callback
 ]

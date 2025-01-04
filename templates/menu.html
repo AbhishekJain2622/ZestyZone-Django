@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Menu{% endblock title %}
+
+{% block slider2 %}
+{% endblock slider2 %}
+
+{% block content %}  
+{% endblock content %}
+
+{% block body %}
+<style>
+  body.light-theme .food_section {
+    background: linear-gradient(to right, #a34526, #f4d49d);
+    color: white;
+  }
+
+  body.dark-theme .food_section {
+    background: linear-gradient(to right, #333, #555);
+    color: #ddd;
+  }
+
+  .filters_menu li.active {
+    color: #fff;
+    background-color: #ff9800;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+
+  body.dark-theme .filters_menu li.active {
+    background-color: #ffa500;
+  }
+</style>
+
+<section class="food_section layout_padding-bottom">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2 style="margin-top: 20px; font-family: Gill Sans Extrabold sans-serif; color: rgb(59, 57, 57);">
+        <i class="fa-solid fa-hand-point-right" style="font-size:x-large; margin-right: 10px;color: white;"></i>
+        Our Menu
+        <i class="fa-solid fa-hand-point-left" style="font-size: x-large;margin-left: 10px; color: white;"></i>
+      </h2>
+    </div>
+
+    <!-- Filter Menu -->
+    <ul class="filters_menu">
+      <li class="{% if category_filter == 'all' %}active{% endif %}" data-filter="all">
+        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}" style="color: white; font-weight: bold;">All</a>
+      </li>
+      <li class="{% if category_filter == 'burger' %}active{% endif %}" data-filter="burger">
+        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Burger</a>
+      </li>
+      <li class="{% if category_filter == 'pizza' %}active{% endif %}" data-filter="pizza">
+        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pizza</a>
+      </li>
+      <li class="{% if category_filter == 'pasta' %}active{% endif %}" data-filter="pasta">
+        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pasta</a>
+      </li>
+      <li class="{% if category_filter == 'fries' %}active{% endif %}" data-filter="fries">
+        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}" style="color: white;font-weight: bold;">Fries</a>
+      </li>
+    </ul>
+
+    <!-- Products Display -->
+    <div class="filters-content">
+      {% if query %}
+        <h4>Results for "{{ query }}"</h4>
+      {% endif %}
+      <div class="row grid">
+        {% for product, range, nSlides in allProds %}
+          {% for item in product %}
+            <div class="col-sm-6 col-lg-4 all" data-category="{{ item.category|lower }}">
+              <div class="box">
+                <div class="img-box">
+                  <img src="{% if item.image %}/media/{{ item.image }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" alt="{{ item.product_name }}" class="product-image">
+                </div>
+                <div class="detail-box">
+                  <h5>{{ item.product_name }}</h5>
+                  <p>{{ item.desc|slice:"0:53" }}...</p>
+                  <div class="options">
+                    <h6>${{ item.price }}</h6>
+                    <button style="background:linear-gradient(to right, #a34526, #B8860B);" class="add-to-cart-btn" data-id="{{ item.id }}" data-name="{{ item.product_name }}" data-price="{{ item.price }}">
+                      <span>Add to Cart</span>
+                      <img src="{% static 'images/cart.png' %}" style="width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Popover for Cart -->
+<button id="popcart" type="button" class="btn btn-warning" style="display:none;" data-toggle="popover" title="Cart Items" data-content="">
+  View Cart
+</button>
+
+
+<!-- End Portfolio Section -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  
+ 
+<script>
+  // Cart functionality using localStorage
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};
+  } else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    updateCart(cart);
+  }
+
+  // Add to Cart click handler
+  $('.add-to-cart-btn').click(function() {
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    var price = $(this).data('price');
+
+    if (cart[id] != undefined) {
+      cart[id][0] += 1; // Increment quantity
+    } else {
+      cart[id] = [1, name, price]; // Add new item with quantity 1
+    }
+
+    updateCart(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length; // Update cart count
+    updatePopover(cart); // Update popover content
+  });
+
+  // Update cart popover
+  function updatePopover(cart) {
+    var popStr = "<h5>Cart for your items</h5><div class='mx-2 my-2'>";
+    var i = 1;
+    for (var item in cart) {
+      popStr += "<b>" + i + "</b>. " + cart[item][1].slice(0, 19) + "... <b>" + cart[item][0] + "</b> Qty<br>";
+      i++;
+    }
+
+    popStr += "</div><a href='/checkout'><button class='btn btn-success'>Checkout</button></a> <button class='btn btn-dark' onclick='clearCart()'>Clear Cart</button>";
+    $('#popcart').attr('data-content', popStr);
+    $('#popcart').popover('show');
+  }
+
+  // Clear cart functionality
+  function clearCart() {
+    cart = {};
+    localStorage.clear();
+    updateCart(cart);
+    updatePopover(cart);
+    document.getElementById('cart').innerHTML = 0;
+    $('#popcart').popover('hide');
+  }
+
+  // Update cart display
+  function updateCart(cart) {
+    var sum = 0;
+    for (var item in cart) {
+      sum += cart[item][0];
+    }
+    document.getElementById('cart').innerHTML = sum; // Update cart count
+  }
+
+  // Initialize popover
+  $('#popcart').popover();
+
+  // Filter functionality (filter by category)
+  $(document).ready(function() {
+    var $grid = $('.grid').isotope({
+      itemSelector: '.all',
+      layoutMode: 'fitRows'
+    });
+
+    $('.filters_menu').on('click', 'li', function() {
+      var filterValue = $(this).attr('data-filter');
+      $grid.isotope({ filter: filterValue });
+      $('.filters_menu li').removeClass('active');
+      $(this).addClass('active');
+    });
+  });
+
+// -------------------------------------------------------------------
+
+</script>
+{% endblock body %}

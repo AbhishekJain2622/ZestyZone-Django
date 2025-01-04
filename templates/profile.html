@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Page{% endblock title %}
+{% block slider2 %}
+{% endblock slider2 %}
+
+{% block body %}
+
+<style>
+    .profile-header {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 10px;
+    }
+
+    .profile-header h1 {
+        margin: 0;
+        font-size: 2em;
+    }
+
+    .container {
+        padding: 30px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .container h2 {
+        font-size: 2.2em;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    table th, table td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    .no-status {
+        color: #888;
+        font-style: italic;
+    }
+
+    .payment-status {
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .payment-success {
+        color: green;
+    }
+
+    .payment-pending {
+        color: red;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+        }
+
+        table th, table td {
+            padding: 10px;
+        }
+
+        .btn {
+            font-size: 1em;
+            padding: 10px 18px;
+        }
+    }
+</style>
+
+<header class="profile-header">
+    <h1>Welcome, {{ user.username }}</h1>
+</header>
+
+<div class="container">
+    <h2>Your Orders</h2>
+
+    {% if orders_with_details %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Status Updates</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_with_detail in orders_with_details %}
+                    {% for item in order_with_detail.items %}
+                    <tr>
+                        <td>{{ order_with_detail.order.order_id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>
+                            <ul style="list-style-type: none; padding: 0; margin: 0;">
+                                {% for status in order_with_detail.status_updates %}
+                                    <li>{{ status.update_desc }} - {{ status.timestamp }}</li>
+                                {% empty %}
+                                    <li class="no-status">No status updates available.</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <span class="payment-status {% if order_with_detail.order.payment_status == 'Success' %}payment-success{% else %}payment-pending{% endif %}">
+                                {% if order_with_detail.order.payment_status == 'Success' %}
+                                    Payment Done
+                                {% else %}
+                                    Payment Not Done
+                                {% endif %}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center; font-size: 1.2em;">You have no orders yet.</p>
+    {% endif %}
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cancelButtons = document.querySelectorAll('.cancel-order-btn');
+
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const orderId = this.getAttribute('data-order-id');
+                const confirmCancel = confirm("Are you sure you want to cancel this order?");
+                if (confirmCancel) {
+                    fetch(`/cancel_order/${orderId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}",
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        if (data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("An error occurred. Please try again.");
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock body %}

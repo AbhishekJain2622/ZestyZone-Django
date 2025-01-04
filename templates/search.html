@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if query %}
+        <h4>Results for "{{ query }}"</h4>
+        <hr>
+        {% if results %}
+            <div class="row">
+                {% for product in results %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.product_name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.product_name }}</h5>
+                                <p class="card-text">Category: {{ product.category }}</p>
+                                <p class="card-text">Price: ₹{{ product.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No results found for "{{ query }}"</p>
+        {% endif %}
+    {% else %}
+        <p class="text-muted">Enter a query above to start searching.</p>
+    {% endif %}
+</div>
+{% endblock %}

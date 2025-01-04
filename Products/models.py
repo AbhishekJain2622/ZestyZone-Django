@@ -1,0 +1,71 @@
+from django.db import models
+
+# Create your models here.
+class ContactUs(models.Model):
+    name=models.CharField(max_length=25)
+    email=models.EmailField()
+    phonenumber=models.CharField(max_length=10,default="phone")
+    description=models.TextField()
+
+    def __str__(self):
+        return self.name
+ 
+class Product(models.Model):
+    product_name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, default="")
+    subcategory = models.CharField(max_length=50, default="")
+    price = models.IntegerField(default=0)
+    desc = models.CharField(max_length=300)
+    image = models.ImageField(upload_to='images')
+
+    def __str__(self):
+        return self.product_name
+
+class Offer(models.Model):
+    Offer_name = models.CharField(max_length=100)
+    Offer = models.CharField(max_length=50)
+    img = models.ImageField(upload_to='images')
+
+    def __str__(self):
+        return self.Offer_name
+
+class AboutMe(models.Model):
+    name = models.CharField(max_length=60)
+    objective = models.TextField()
+    img2 = models.ImageField(upload_to='images')
+
+    def __str__(self):
+        return self.name
+
+class Orders(models.Model):
+    order_id = models.AutoField(primary_key=True)  # Internal order ID (integer)
+    items_json = models.CharField(max_length=5000)
+    amount = models.IntegerField(default=0)
+    name = models.CharField(max_length=90)
+    email = models.CharField(max_length=90)
+    address1 = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=100)
+    oid = models.CharField(max_length=150, blank=True)  # Razorpay order ID (string)
+    amountpaid = models.CharField(max_length=500, blank=True, null=True)
+    phone = models.CharField(max_length=100, default="")
+    payment_id = models.CharField(max_length=100, blank=True, null=True)  # Razorpay payment ID (string)
+    payment_status = models.CharField(max_length=50, default='Pending')  # Payment status
+    canceled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Order {self.order_id} - {self.name}"
+
+class OrderUpdate(models.Model):
+    update_id = models.AutoField(primary_key=True)
+    order_id = models.IntegerField()  # Links to `order_id` in Orders model
+    update_desc = models.CharField(max_length=5000)
+    delivered = models.BooleanField(default=False)
+    timestamp = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.update_desc[:7] + "..."
+
+

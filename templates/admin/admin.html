@@ -1,0 +1,23 @@
+{%extends 'base.html' %}
+{% block title %}contact{% endblock %}
+{% load static %}
+{% block sliderl %}
+
+{% endblock sliderl %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+<ul>
+    <li><strong>Total Users:</strong> {{ users_count }}</li>
+    <li><strong>Total Orders:</strong> {{ orders_count }}</li>
+    <li><strong>Total Products:</strong> {{ products_count }}</li>
+    <li><strong>Total Contacts:</strong> {{ contacts_count }}</li>
+</ul>
+<nav>
+    <a href="{% url 'admin_orders' %}">Manage Orders</a> |
+    <a href="{% url 'admin_products' %}">Manage Products</a> |
+    <a href="{% url 'admin_users' %}">Manage Users</a>
+</nav>
+{% endblock content %}
+{% block footer %}
+{% endblock footer %}
+ 

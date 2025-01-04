@@ -3,46 +3,113 @@
 
 {% block content %}
 <div class="payment-container">
-    <h1>Complete Your Payment</h1>
-    
-<form action="/payment_success/" method="POST">
-    <script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="{{ razorpay_key }}"
-        data-amount="{{ amount }}"
-        data-currency="INR"
-        data-order_id="{{ razorpay_order_id }}"
-        data-buttontext="Pay with Razorpay"
-        data-name="Your Store"
-        data-description="Complete your payment"
-        data-image="/your-logo.png"
-        data-prefill.name="{{ name }}"
-        data-prefill.email="{{ email }}"
-        data-prefill.contact="{{ phone }}"
-        data-theme.color="#F37254"
-    ></script>
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-</form>
+    <div class="payment-header">
+    <img src="{% static 'images/logo-transparent-png.png' %}" alt="Your Logo" class="logo">
+        <h1>Complete Your Payment</h1>
+        <p class="description">Securely complete your payment for the best experience with us.</p>
+    </div>
 
+    <div class="payment-form">
+        <form action="/payment_success/" method="POST">
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{ razorpay_key }}"
+                data-amount="{{ amount }}"
+                data-currency="INR"
+                data-order_id="{{ razorpay_order_id }}"
+                data-buttontext="Pay with Razorpay"
+                data-name="Your Store"
+                data-description="Complete your payment"
+                data-image="/your-logo.png"
+                data-prefill.name="{{ name }}"
+                data-prefill.email="{{ email }}"
+                data-prefill.contact="{{ phone }}"
+                data-theme.color="#F37254"
+            ></script>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </form>
+    </div>
 
+    <div class="payment-footer">
+        <p class="secure-note">
+            <i class="fas fa-lock"></i> Transactions are secure and encrypted.
+        </p>
+    </div>
 </div>
 
-<!-- Optional Styling -->
+<!-- Styling -->
 <style>
-    .payment-container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        text-align: center;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
     }
-    .payment-container h1 {
+
+    .payment-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 12px;
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        box-shadow: 6px 6px 12px #d9d9d9, -6px -6px 12px #ffffff;
+        text-align: center;
+    }
+
+    .payment-header {
         margin-bottom: 20px;
+    }
+
+    .logo {
+        max-width: 100px;
+        margin-bottom: 15px;
+    }
+
+    .payment-header h1 {
         font-size: 24px;
         color: #333;
     }
+
+    .description {
+        color: #777;
+        font-size: 16px;
+    }
+
+    .payment-form form {
+        margin-top: 20px;
+    }
+
+    .payment-footer {
+        margin-top: 20px;
+    }
+
+    .secure-note {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .secure-note i {
+        color: #4caf50;
+        margin-right: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .payment-container {
+            padding: 20px;
+        }
+
+        .payment-header h1 {
+            font-size: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+        }
+
+        .secure-note {
+            font-size: 12px;
+        }
+    }
 </style>
+
 {% endblock %}

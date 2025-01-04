@@ -10,57 +10,258 @@
 
 {% block body %}
 <style>
-  body.light-theme .food_section {
-    background: linear-gradient(to right, #a34526, #f4d49d);
-    color: white;
-  }
+ /* =======================================
+   Card Styles
+   ======================================= */
 
-  body.dark-theme .food_section {
-    background: linear-gradient(to right, #333, #555);
-    color: #ddd;
-  }
+/* Card container */
+.filters-content .box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 15px 0;
+  width: 100%;
+  max-width: 300px;
+  min-height: 400px;
+  padding: 10px;
+  background: var(--card-bg);
+  color: var(--card-text);
+  border: 1px solid var(--card-border);
+}
 
-  .filters_menu li.active {
-    color: #fff;
-    background-color: #ff9800;
-    border-radius: 5px;
-    padding: 5px 10px;
-  }
+.filters-content .box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 
-  body.dark-theme .filters_menu li.active {
-    background-color: #ffa500;
-  }
+/* =======================================
+   Image Styles
+   ======================================= */
+
+.filters-content .img-box {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--img-bg);
+}
+
+.filters-content .img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =======================================
+   Detail Box Styles
+   ======================================= */
+
+.filters-content .detail-box {
+  flex-grow: 1;
+  padding: 20px;
+  text-align: center;
+}
+
+.filters-content .detail-box h5 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: var(--heading-text);
+}
+
+.filters-content .detail-box p {
+  font-size: 0.9em;
+  margin-bottom: 15px;
+  color: var(--card-text);
+}
+
+/* =======================================
+   Options and Button Styles
+   ======================================= */
+
+.filters-content .options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.filters-content .options h6 {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--price-text);
+}
+
+.filters-content .add-to-cart-btn {
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.9em;
+  transition: background 0.3s ease;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+.filters-content .add-to-cart-btn:hover {
+  background: var(--btn-hover-bg);
+}
+
+/* =======================================
+   Row Layout Styles
+   ======================================= */
+
+.filters-content .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* =======================================
+   Theme Variables
+   ======================================= */
+
+/* Light Theme */
+body.light-theme {
+  --card-bg: #ffffff;
+  --card-text: #333;
+  --card-border: #ddd;
+  --img-bg: #f8f8f8;
+  --heading-text: #ff6347;
+  --price-text: #a34526;
+  --btn-bg: linear-gradient(to right, #ff9800, #ffcc00);
+  --btn-text: white;
+  --btn-hover-bg: linear-gradient(to right, #ffa500, #ffdd44);
+}
+
+/* Dark Theme */
+body.dark-theme {
+  --card-bg: #222;
+  --card-text: #ddd;
+  --card-border: #444;
+  --img-bg: #333;
+  --heading-text: #ffcc00;
+  --price-text: #f4d49d;
+  --btn-bg: linear-gradient(to right, #ff9800, #a34526);
+  --btn-text: white;
+  --btn-hover-bg: linear-gradient(to right, #ff9800, #b0522e);
+}
+
+
+/* Filter Menu Styles */
+.filters_menu {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px 0;
+  list-style: none;
+  margin: 0;
+}
+
+.filters_menu li {
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.filters_menu li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Light Theme */
+body.light-theme .filters_menu li {
+  background: linear-gradient(to right, #f8b400, #ffcc33);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .filters_menu li:hover {
+  background: linear-gradient(to right, #ff9800, #ffdd44);
+  transform: scale(1.1);
+}
+
+/* Dark Theme */
+body.dark-theme .filters_menu li {
+  background: linear-gradient(to right, #555, #888);
+  color: #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .filters_menu li:hover {
+  background: linear-gradient(to right, #777, #aaa);
+  transform: scale(1.1);
+}
+
+/* Active Filter */
+.filters_menu li.active {
+  background: linear-gradient(to right, #ff6347, #ff9800);
+  color: white;
+  transform: scale(1.1);
+}
 </style>
-
 <section class="food_section layout_padding-bottom">
   <div class="container">
     <div class="heading_container heading_center">
-      <h2 style="margin-top: 20px; font-family: Gill Sans Extrabold sans-serif; color: rgb(59, 57, 57);">
-        <i class="fa-solid fa-hand-point-right" style="font-size:x-large; margin-right: 10px;color: white;"></i>
-        Our Menu
-        <i class="fa-solid fa-hand-point-left" style="font-size: x-large;margin-left: 10px; color: white;"></i>
-      </h2>
+      <h2 style="
+  margin-top: 20px;
+  font-family: 'Gill Sans Extrabold', sans-serif;
+  color: #ffcc00;
+  text-align: center;
+  font-size: 1.8em;
+  position: relative;
+  display: inline-block;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  transition: color 0.3s ease-in-out;
+">
+  <span style="
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6347, #ffcc00);
+    content: '';
+    display: block;
+    border-radius: 2px;
+  "></span>
+  <i class="fa-solid fa-hand-point-right" style="font-size: x-large; margin-right: 10px; color: #ff6347; transition: transform 0.3s ease;"></i>
+  Our Menu
+  <i class="fa-solid fa-hand-point-left" style="font-size: x-large; margin-left: 10px; color: #ff6347; transition: transform 0.3s ease;"></i>
+</h2>
     </div>
-
-    <!-- Filter Menu -->
     <ul class="filters_menu">
       <li class="{% if category_filter == 'all' %}active{% endif %}" data-filter="all">
-        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}" style="color: white; font-weight: bold;">All</a>
+        <a href="{% url 'menu' %}?category=all&q={{ query|default:'' }}">All</a>
       </li>
       <li class="{% if category_filter == 'burger' %}active{% endif %}" data-filter="burger">
-        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Burger</a>
+        <a href="{% url 'menu' %}?category=burger&q={{ query|default:'' }}">Burger</a>
       </li>
       <li class="{% if category_filter == 'pizza' %}active{% endif %}" data-filter="pizza">
-        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pizza</a>
+        <a href="{% url 'menu' %}?category=pizza&q={{ query|default:'' }}">Pizza</a>
       </li>
       <li class="{% if category_filter == 'pasta' %}active{% endif %}" data-filter="pasta">
-        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}" style="color: white; font-weight: bold;">Pasta</a>
+        <a href="{% url 'menu' %}?category=pasta&q={{ query|default:'' }}">Pasta</a>
       </li>
       <li class="{% if category_filter == 'fries' %}active{% endif %}" data-filter="fries">
-        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}" style="color: white;font-weight: bold;">Fries</a>
+        <a href="{% url 'menu' %}?category=fries&q={{ query|default:'' }}">Fries</a>
       </li>
     </ul>
-
     <!-- Products Display -->
     <div class="filters-content">
       {% if query %}

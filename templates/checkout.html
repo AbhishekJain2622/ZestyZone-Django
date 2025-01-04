@@ -5,14 +5,10 @@
 {% endblock slider2%}
 
 {% block content %}
-
-
-<head>
-    <style>
+<style>
         /* Section Styling */
 #portfolio {
   background-color:white;
-  background-image: ;
   padding-top: 50px;
   padding-bottom: 50px;
 }
@@ -89,27 +85,33 @@ button.btn-success:hover {
     width: 100%;
   }
 }
+/* Ensure the dark background applies */
+#portfolio {
+    background-color: #121212 !important; /* Override conflicting styles */
+    color: #ffffff !important; /* Text color */
+    padding: 50px 0;
+}
 
-    </style>
-</head>
+/* Ensure child text visibility */
+#portfolio h2, #portfolio h3, #portfolio p {
+    color: #ffffff !important;
+}
 
-
-
-
+ </style>
 <!-- ======= Portfolio Section ======= -->
 
 
          <section id="portfolio" class="portfolio">
-            <div class="container py-5">
-              {% for message in messages %}
+            <div class="container py-5" >
+              <!-- {% for message in messages %}
                 <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
                   <strong>{{message}}</strong>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-              {% endfor %}
+              {% endfor %} -->
         
-              <div class="section-title text-center mb-5">
-                <h2 class="text-primary">Checkout</h2>
+              <div class="section-title text-center mb-5"  style="margin-top: 0px;">
+                <h2 class="text-primary" >Checkout</h2>
                 <h3 class="text-muted">Review Your Cart & Enter Your Details</h3>
               </div>
         
@@ -196,78 +198,60 @@ button.btn-success:hover {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
   
   <script>
-  if (localStorage.getItem('cart') === null) {
-      var cart = {};
-  } else {
-      var cart = JSON.parse(localStorage.getItem('cart'));
-  }
-  console.log(cart);
-  
-  var sum = 0;
-  var totalPrice = 0;
-  
-  if ($.isEmptyObject(cart)) {
-      let mystr = `<p>Your cart is empty, please add some items to your cart before checking out!</p>`;
-      $('#items').append(mystr);
-  } else {
-      for (let item in cart) {
-          let name = cart[item][1];
-          let qty = cart[item][0];
-          let itemPrice = cart[item][2];
-          sum += qty;
-          totalPrice += qty * itemPrice;
-  
-          let mystr = `
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                      <b>${name}</b>
-                      <div>Price: ${itemPrice}</div>
-                  </div>
-                  <span class="badge badge-primary badge-pill">${qty}</span>
-                  <input type="number" class="form-control form-control-sm ml-2 edit-quantity" data-item="${item}" value="${qty}" style="width: 60px;">
-                  <button class="btn btn-danger btn-sm ml-2 delete-item" data-item="${item}">Delete</button>
-              </li>`;
-          $('#items').append(mystr);
-      }
-      document.getElementById('totalprice').innerHTML = totalPrice;
-  }
-  
-  // Handle item deletion
-  $(document).on('click', '.delete-item', function () {
-      let item = $(this).data('item'); // Get the item key
-      delete cart[item]; // Remove the item from the cart object
-      localStorage.setItem('cart', JSON.stringify(cart)); // Update the localStorage
-      location.reload(); // Refresh the page to update the cart
-  });
-  
-  // Handle quantity editing
-  $(document).on('input', '.edit-quantity', function () {
-      let item = $(this).data('item'); // Get the item key
-      let newQty = $(this).val(); // Get the new quantity
-      if (!isNaN(newQty) && newQty > 0) {
-          cart[item][0] = parseInt(newQty); // Update the quantity
-          localStorage.setItem('cart', JSON.stringify(cart)); // Update the localStorage
-          let newTotal = 0;
-          for (let key in cart) {
-              newTotal += cart[key][0] * cart[key][2];
-          }
-          document.getElementById('totalprice').innerHTML = newTotal;
-      } else {
-          alert("Invalid quantity entered.");
-      }
-  });
-  
-  $('#itemsJson').val(JSON.stringify(cart));
-  
-  // If "thank" context is true
-  {% if thank %}
-  alert('Thanks for ordering with us. Your order is {{id}}. Use it to track your order using our order tracker.');
-  localStorage.clear();
-  document.location = "/";
-  {% endif %}
-  
-  // Setting the amount to the hidden input
-  document.getElementById("amt").value = totalPrice;
+// Initialize cart
+let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+// Populate cart items
+let totalPrice = 0;
+if (Object.keys(cart).length === 0) {
+    $('#items').html('<p>Your cart is empty. Please add items before checking out!</p>');
+} else {
+    for (let item in cart) {
+        const [qty, name, price] = cart[item];
+        totalPrice += qty * price;
+
+        $('#items').append(`
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <b>${name}</b>
+                    <div>Price: ${price}</div>
+                </div>
+                <span class="badge badge-primary">${qty}</span>
+                <input type="number" class="form-control form-control-sm ml-2 edit-quantity" 
+                       data-item="${item}" value="${qty}" style="width: 60px;">
+                <button class="btn btn-danger btn-sm ml-2 delete-item" data-item="${item}">Delete</button>
+            </li>
+        `);
+    }
+}
+
+// Update total price
+$('#totalprice').text(totalPrice);
+$('#amt').val(totalPrice);
+
+// Delete item
+$(document).on('click', '.delete-item', function () {
+    const item = $(this).data('item');
+    delete cart[item];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    location.reload();
+});
+
+// Edit quantity
+$(document).on('input', '.edit-quantity', function () {
+    const item = $(this).data('item');
+    const qty = parseInt($(this).val());
+    if (qty > 0) {
+        cart[item][0] = qty;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        location.reload();
+    } else {
+        alert('Quantity must be greater than 0.');
+    }
+});
+
+// Handle empty cart
+$('#itemsJson').val(JSON.stringify(cart));
   
   </script>
   

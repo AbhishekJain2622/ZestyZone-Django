@@ -5,144 +5,51 @@
 {% endblock slider2 %}
 
 {% block body %}
-
-<style>
-    .profile-header {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 20px 0;
-        margin-top: 10px;
-    }
-
-    .profile-header h1 {
-        margin: 0;
-        font-size: 2em;
-    }
-
-    .container {
-        padding: 30px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        margin-top: 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .container h2 {
-        font-size: 2.2em;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    table th, table td {
-        padding: 15px;
-        text-align: left;
-    }
-
-    table th {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-
-    table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    table tr:hover {
-        background-color: #ddd;
-    }
-
-    .no-status {
-        color: #888;
-        font-style: italic;
-    }
-
-    .payment-status {
-        font-weight: bold;
-        text-transform: capitalize;
-    }
-
-    .payment-success {
-        color: green;
-    }
-
-    .payment-pending {
-        color: red;
-    }
-
-    /* Responsive Design */
-    @media screen and (max-width: 768px) {
-        .container {
-            padding: 15px;
-        }
-
-        h2 {
-            font-size: 1.8em;
-        }
-
-        table th, table td {
-            padding: 10px;
-        }
-
-        .btn {
-            font-size: 1em;
-            padding: 10px 18px;
-        }
-    }
-</style>
-
-<header class="profile-header">
-    <h1>Welcome, {{ user.username }}</h1>
+<header class="profile-header" style="background: linear-gradient(90deg, #ff7e5f, #feb47b); color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+    <h1 style="color: white; margin: 0; font-size: 2.5em; font-weight: bold;">Welcome, {{ user.username }}</h1>
 </header>
 
-<div class="container">
-    <h2>Your Orders</h2>
+<div class="container" style="max-width: 950px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #34495e; font-size: 1.8em; border-bottom: 3px solid #ff7e5f; display: inline-block; padding-bottom: 10px; font-weight: bold;">
+        Your Orders
+    </h2>
 
     {% if orders_with_details %}
-        <table>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px; border-radius: 10px; overflow: hidden; background: #fff;">
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Status Updates</th>
-                    <th>Payment Status</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Order ID</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Item Name</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Quantity</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Price</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Status Updates</th>
+                    <th style="padding: 15px; text-align: left; border: 1px solid #ddd; background: linear-gradient(90deg, #ff6b6b, #f94d6d); color: white; font-weight: bold; text-transform: uppercase;">Payment Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order_with_detail in orders_with_details %}
                     {% for item in order_with_detail.items %}
-                    <tr>
-                        <td>{{ order_with_detail.order.order_id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>${{ item.price }}</td>
-                        <td>
-                            <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <tr style="border-bottom: 2px solid #f1f1f1; transition: background-color 0.3s; background-color: #fdfdfd;">
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd;">{{ order_with_detail.order.order_id }}</td>
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd; color: #2c3e50; font-weight: bold;">{{ item.name }}</td>
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd;">{{ item.quantity }}</td>
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd;">${{ item.price }}</td>
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd;">
+                            <ul style="list-style: none; padding: 0; margin: 0;">
                                 {% for status in order_with_detail.status_updates %}
-                                    <li>{{ status.update_desc }} - {{ status.timestamp }}</li>
+                                    <li style="color: #34495e; margin-bottom: 8px;">{{ status.update_desc }} - {{ status.timestamp }}</li>
                                 {% empty %}
-                                    <li class="no-status">No status updates available.</li>
+                                    <li style="color: #888; font-style: italic;">No status updates available.</li>
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>
-                            <span class="payment-status {% if order_with_detail.order.payment_status == 'Success' %}payment-success{% else %}payment-pending{% endif %}">
+                        <td style="padding: 15px; text-align: left; border: 1px solid #ddd;">
+                            <span style="padding: 8px 16px; border-radius: 4px; font-weight: bold; display: inline-block; text-transform: uppercase; 
+                                {% if order_with_detail.order.payment_status == 'Success' %}
+                                    background: linear-gradient(90deg, #6a11cb, #2575fc); color: white; border: 2px solid #6a11cb;
+                                {% else %}
+                                    background: linear-gradient(90deg, #ff5f6d, #ffc371); color: white; border: 2px solid #ff5f6d;
+                                {% endif %}">
                                 {% if order_with_detail.order.payment_status == 'Success' %}
                                     Payment Done
                                 {% else %}
@@ -156,40 +63,24 @@
             </tbody>
         </table>
     {% else %}
-        <p style="text-align: center; font-size: 1.2em;">You have no orders yet.</p>
+        <p style="text-align: center; font-size: 1.2em; color: #888; font-weight: bold;">You have no orders yet.</p>
     {% endif %}
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const cancelButtons = document.querySelectorAll('.cancel-order-btn');
 
-        cancelButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const orderId = this.getAttribute('data-order-id');
-                const confirmCancel = confirm("Are you sure you want to cancel this order?");
-                if (confirmCancel) {
-                    fetch(`/cancel_order/${orderId}/`, {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": "{{ csrf_token }}",
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        if (data.success) {
-                            location.reload();
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        alert("An error occurred. Please try again.");
-                    });
-                }
-            });
-        });
+<script>
+    // Toggle Theme Functionality
+    document.getElementById('toggleTheme').addEventListener('click', function () {
+        document.body.classList.toggle('dark-theme');
+        const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+    });
+
+    // Load Theme Preference
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
     });
 </script>
-
 {% endblock body %}

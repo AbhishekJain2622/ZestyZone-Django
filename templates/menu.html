@@ -279,7 +279,7 @@ body.dark-theme .filters_menu li:hover {
                   <h5>{{ item.product_name }}</h5>
                   <p>{{ item.desc|slice:"0:53" }}...</p>
                   <div class="options">
-                    <h6>${{ item.price }}</h6>
+                    <h6> &#8377;{{ item.price }}</h6>
                     <button style="background:linear-gradient(to right, #a34526, #B8860B);" class="add-to-cart-btn" data-id="{{ item.id }}" data-name="{{ item.product_name }}" data-price="{{ item.price }}">
                       <span>Add to Cart</span>
                       <img src="{% static 'images/cart.png' %}" style="width: 20px; height: 20px;" alt="Cart" class="fa fa-shopping-cart">
